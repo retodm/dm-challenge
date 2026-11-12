@@ -160,6 +160,8 @@ async function updatePlayer(p, cache, config) {
     // 1) Historial de partidas completas (incluyen a todos los jugadores → resultado exacto).
     //    Se pide página a página (10 partidas) hasta llegar a partidas de antes del acto,
     //    o a una página en la que todas las partidas ya estaban guardadas.
+    const bf = (cache._historialCompleto ||= {});
+    const bfKey = `${puuid}:${mode.key}`;
     let useV4 = true;
     for (let start = 0, page = 0; page < 20; start += 10, page++) {
       const q = `mode=${mode.query}&size=10&start=${start}`;
@@ -188,7 +190,8 @@ async function updatePlayer(p, cache, config) {
         if (won !== null) { mine[m.id] = { mode: mode.key, won, at: m.startedAt }; added++; }
       }
       if (DEBUG) console.log(`  [debug] página ${page + 1} (${useV4 ? "v4" : "v3"}): ${list.length} partidas · ${added} nuevas · ${known} ya guardadas · ${older} de otro acto`);
-      if (list.length === 0 || older > 0 || (known > 0 && added === 0)) break;
+      if (list.length === 0 || older > 0 || list.length < 10) { bf[bfKey] = true; break; }
+      if (bf[bfKey] && known > 0 && added === 0) break; // ya teníamos el resto
     }
 
     // 2) Historial guardado por HenrikDev (más largo, pero solo con mis estadísticas)
