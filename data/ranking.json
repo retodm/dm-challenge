@@ -1,6 +1,67 @@
 {
-  "updatedAt": null,
+  "updatedAt": "2026-11-12T23:29:35.716Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
-  "players": []
+  "players": [
+    {
+      "riotId": "Huguicius#5613",
+      "name": "Huguicius",
+      "tag": "5613",
+      "url": "https://tracker.gg/valorant/profile/riot/Huguicius%235613/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
+      "puuid": "a93dadd0-eb5c-5411-8ac1-559fa6fdda3e",
+      "avatar": "https://media.valorant-api.com/playercards/bfab82f0-42ca-1fd2-7d32-7ab950e42e8f/smallart.png",
+      "dmWins": 25,
+      "tdmWins": 0,
+      "dmPlayed": 64,
+      "tdmPlayed": 1,
+      "wins": 25,
+      "ok": true,
+      "lastOkAt": "2026-11-12T23:29:35.704Z"
+    },
+    {
+      "riotId": "Deuve#aot",
+      "name": "Deuve",
+      "tag": "aot",
+      "url": "https://tracker.gg/valorant/profile/riot/Deuve%23aot/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
+      "puuid": "fe158399-d88f-5864-bfd0-7330a42f7d73",
+      "avatar": "https://media.valorant-api.com/playercards/714965d1-469f-6661-1012-5d8664ca5e4a/smallart.png",
+      "dmWins": 5,
+      "tdmWins": 7,
+      "dmPlayed": 50,
+      "tdmPlayed": 19,
+      "wins": 12,
+      "ok": true,
+      "lastOkAt": "2026-11-12T23:23:06.717Z"
+    },
+    {
+      "riotId": "Zumito#CHUPO",
+      "name": "Zumito",
+      "tag": "CHUPO",
+      "url": "https://tracker.gg/valorant/profile/riot/Zumito%23CHUPO/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
+      "puuid": "ade3e51c-341d-5658-9c3b-75bf9c9638ed",
+      "avatar": "https://media.valorant-api.com/playercards/6ca6c154-4ec2-3656-ce84-a79b5a29a34e/smallart.png",
+      "dmWins": 0,
+      "tdmWins": 0,
+      "dmPlayed": 9,
+      "tdmPlayed": 1,
+      "wins": 0,
+      "ok": true,
+      "lastOkAt": "2026-11-12T23:18:16.264Z"
+    },
+    {
+      "riotId": "ﾒmisaﾒ#メエススイ",
+      "name": "ﾒmisaﾒ",
+      "tag": "メエススイ",
+      "url": "https://tracker.gg/valorant/profile/riot/%EF%BE%92misa%EF%BE%92%23%E3%83%A1%E3%82%A8%E3%82%B9%E3%82%B9%E3%82%A4/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
+      "puuid": "f26928de-d1ad-54ea-a8e5-640f70e70314",
+      "avatar": "https://media.valorant-api.com/playercards/f35491d4-40a6-9988-1d9e-c097b445428a/smallart.png",
+      "dmWins": 0,
+      "tdmWins": 0,
+      "dmPlayed": 25,
+      "tdmPlayed": 0,
+      "wins": 0,
+      "ok": true,
+      "lastOkAt": "2026-11-12T23:25:59.907Z"
+    }
+  ]
 }
