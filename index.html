@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reto Deathmatch V26:A6</title>
+  <meta name="description" content="Ranking en directo del reto de Deathmatch del acto V26:A6 de Valorant." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="tag" id="acto">V26:A6</span>
+      <h1 id="titulo">Reto Deathmatch</h1>
+    </div>
+    <button class="help-btn" id="openHelp" aria-haspopup="dialog">
+      <span aria-hidden="true">?</span> Ayuda
+    </button>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="lead">¿Quién ganará más Deathmatch este acto? <strong>Deathmatch + Team Deathmatch</strong>, solo victorias.</p>
+      <div class="chips">
+        <span class="chip" id="premio">🎁 Premio</span>
+        <span class="chip hidden" id="record"></span>
+        <span class="chip hidden" id="countdown"></span>
+      </div>
+    </section>
+
+    <section class="podium" id="podium" aria-label="Podio"></section>
+
+    <section class="list-wrap">
+      <ol class="list" id="list" start="4"></ol>
+      <p class="empty hidden" id="empty">Aún no hay participantes. ¡Envía tu tracker en el canal del reto!</p>
+    </section>
+
+    <p class="updated" id="updated"></p>
+  </main>
+
+  <footer class="foot">
+    <nav class="social" id="social" aria-label="Redes sociales"></nav>
+    <p class="small">Datos de <a href="https://tracker.gg/valorant" target="_blank" rel="noopener">tracker.gg</a>. Se actualizan automáticamente cada ~30 min. Proyecto no afiliado a Riot Games.</p>
+  </footer>
+
+  <dialog id="help" aria-labelledby="helpTitle">
+    <form method="dialog" class="dialog-inner">
+      <button class="close" aria-label="Cerrar">×</button>
+      <h2 id="helpTitle">Sobre el reto</h2>
+      <p>Este acto <b data-acto>V26:A6</b> queremos que sea un acto en el que <b>todos mejoremos como jugadores</b>.</p>
+      <p>Estoy intentando batir mi récord de mayor número de Deathmatch ganados en un acto, y he pensado que sería divertido compartir el reto con tod@s.</p>
+
+      <h3>🏆 Premio</h3>
+      <p>La persona que termine el acto con <b>más Deathmatch ganados</b> (siempre que supere mi marca personal) se llevará: <b data-premio>tarjeta regalo de 20€ en Valorant Points</b>.</p>
+
+      <h3>🎯 ¿Cómo participo?</h3>
+      <p>Envía el enlace a tu <b>tracker de tracker.gg</b> en el canal del reto en Discord. Si tienes dudas sobre cómo conseguirlo, pregunta en el chat general.</p>
+
+      <h3>📣 ¿Cuándo se anuncia el ganador?</h3>
+      <p>Al terminar el acto revisaremos todos los trackers <b>en directo</b> y contactaré personalmente al ganador por Discord.</p>
+
+      <h3>📋 Reglas</h3>
+      <ul>
+        <li>Solo cuentan las partidas jugadas durante este acto.</li>
+        <li>Solo cuentan las <b>victorias</b>.</li>
+        <li>Cuentan <b>Deathmatch y Team Deathmatch</b>: se suman las victorias de ambos modos.</li>
+        <li>No hay límite de Deathmatch diarios.</li>
+        <li>Solo puedes participar si resides en <b>Europa</b>.</li>
+        <li>Si nadie supera mi contador final, no habrá ganador.</li>
+      </ul>
+      <p class="note">El ranking de esta web es orientativo y se actualiza cada ~30 min. El resultado oficial es el de la revisión en directo al final del acto.</p>
+      <p class="cta">¿Ya estás listo para desbloquear tu máximo potencial? <b>Demuéstralo.</b></p>
+      <div class="social" id="socialHelp"></div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

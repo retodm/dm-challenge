@@ -1,0 +1,12 @@
+{
+  "name": "podio-dm-valorant",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "update": "node scripts/update.mjs",
+    "serve": "npx --yes serve ."
+  },
+  "dependencies": {
+    "playwright-core": "1.48.2"
+  }
+}
