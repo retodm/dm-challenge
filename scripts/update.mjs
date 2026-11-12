@@ -12,7 +12,7 @@
 // Uso:
 //   HENRIK_API_KEY=xxxx node scripts/update.mjs            → actualiza los ficheros
 //   HENRIK_API_KEY=xxxx node scripts/update.mjs --dry-run  → solo muestra resultados
-//   ... --debug                                            → guarda respuestas crudas en debug/
+//   ... --debug                                            → detalle de cada partida
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -35,27 +35,35 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const enc = encodeURIComponent;
 const lc = (s) => String(s ?? "").toLowerCase();
 
-// ---------- HTTP con límite de ritmo (clave básica: 30 peticiones/min) ----------
+// ---------- HTTP con límite de ritmo ----------
+// HenrikDev (clave Basic) permite 30 peticiones/minuto. Se leen sus cabeceras
+// x-ratelimit-remaining / x-ratelimit-reset para ir lo más rápido posible sin pasarse.
 
+const MIN_GAP_MS = 300;
 let lastReq = 0;
 let reqCount = 0;
+let remaining = Infinity;
+let resetAt = 0;
+
 async function api(pathname, debugName) {
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    const wait = lastReq + 2500 - Date.now(); // máx. ~24 peticiones/min
-    if (wait > 0) await sleep(wait);
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    if (remaining <= 1 && Date.now() < resetAt) await sleep(resetAt - Date.now() + 500);
+    const gap = lastReq + MIN_GAP_MS - Date.now();
+    if (gap > 0) await sleep(gap);
     lastReq = Date.now();
     reqCount++;
     const res = await fetch(BASE + pathname, {
       headers: { Authorization: KEY, Accept: "application/json" },
     });
-    if (DEBUG && reqCount <= 2) {
-      const h = [...res.headers].filter(([k]) => /rate|limit|retry/i.test(k));
-      console.log("  [debug] cabeceras de límite:", JSON.stringify(h));
-    }
+    const rem = Number(res.headers.get("x-ratelimit-remaining"));
+    const rst = Number(res.headers.get("x-ratelimit-reset"));
+    if (Number.isFinite(rem)) remaining = rem;
+    if (Number.isFinite(rst)) resetAt = Date.now() + rst * 1000;
     if (res.status === 429) {
-      const ra = Number(res.headers.get("retry-after")) || 60;
+      const ra = Number(res.headers.get("retry-after")) || rst || 60;
       console.warn(`  límite de peticiones alcanzado, esperando ${ra}s…`);
-      await sleep(ra * 1000);
+      remaining = 0;
+      resetAt = Date.now() + ra * 1000;
       continue;
     }
     const body = await res.json().catch(() => null);
@@ -66,7 +74,7 @@ async function api(pathname, debugName) {
     if (res.status === 404) return null;
     if (!res.ok) {
       const msg = body?.errors?.[0]?.message || body?.message || "";
-      if (res.status >= 500 && attempt < 3) { await sleep(5000); continue; }
+      if (res.status >= 500 && attempt < 4) { await sleep(5000); continue; }
       throw new Error(`HTTP ${res.status} ${msg} (${pathname})`);
     }
     return body;

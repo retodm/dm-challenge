@@ -12,6 +12,7 @@ trackers.json ──► GitHub Actions (cada 30 min) ──► data/ranking.json
 - Fuente: [HenrikDev API](https://docs.henrikdev.xyz) (historial público de partidas de Riot). tracker.gg no tiene API pública para Valorant y bloquea las peticiones desde servidores.
 - Cada partida del acto se guarda en `data/matches.json` la primera vez que aparece: no se cuenta dos veces y no se pierde aunque salga del historial reciente.
 - En **DM** gana quien acaba con más kills; en **TDM**, el equipo ganador.
+- Límite de la clave gratuita de HenrikDev: **30 peticiones/minuto**. El script lee las cabeceras de la API y va lo más rápido que permite sin pasarse. Cada jugador nuevo cuesta unas 6–10 peticiones la primera vez (más si tiene muchas partidas) y luego ~5 por actualización, así que con 30 jugadores una actualización tarda unos 5–6 min. Si se queda corto, HenrikDev ofrece claves de mayor límite solicitándolas en su Discord.
 - Si un jugador falla, se conserva su último dato y aparece un ⚠ junto a su nombre.
 
 > El ranking es orientativo: Riot solo expone un historial reciente, así que las partidas jugadas antes de entrar en el ranking pueden no aparecer completas. El resultado oficial es la revisión en directo de los trackers.
