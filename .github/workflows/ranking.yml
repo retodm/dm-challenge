@@ -3,9 +3,15 @@ name: Actualizar ranking y publicar
 on:
   schedule:
     - cron: "*/30 * * * *"   # cada 30 min (GitHub puede retrasarlo unos minutos)
-  workflow_dispatch:          # botón "Run workflow" para forzarlo a mano
+  workflow_dispatch:          # botón "Run workflow" en la pestaña Actions
+    inputs:
+      solo_probar:
+        description: "Solo probar (muestra resultados, no guarda ni publica)"
+        type: boolean
+        default: false
   push:
     branches: [main]
+    paths: ["trackers.json", "config.json", "index.html", "styles.css", "app.js", "scripts/**", ".github/workflows/**"]
 
 permissions:
   contents: write
@@ -19,6 +25,8 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      HENRIK_API_KEY: ${{ secrets.HENRIK_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
@@ -26,26 +34,42 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install --no-audit --no-fund
+      - name: Probar (sin guardar)
+        if: ${{ inputs.solo_probar }}
+        run: node scripts/update.mjs --dry-run --debug
 
-      # Usa el Google Chrome que ya trae el runner (no hace falta descargar navegadores)
-      - name: Obtener datos de tracker.gg
+      - name: Subir respuestas de la API (para depurar)
+        if: ${{ inputs.solo_probar }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug
+          path: debug/
+          if-no-files-found: ignore
+
+      - name: Obtener datos
+        if: ${{ !inputs.solo_probar }}
         run: node scripts/update.mjs
 
       - name: Guardar ranking en el repo
+        if: ${{ !inputs.solo_probar }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
-          git add data/ranking.json
+          git add data/
           git diff --cached --quiet || git commit -m "Actualizar ranking [skip ci]"
-          git push
+          git pull --rebase -q && git push
 
       - name: Preparar web
+        if: ${{ !inputs.solo_probar }}
         run: |
-          mkdir -p _site
-          cp -r index.html styles.css app.js config.json data assets _site/ 2>/dev/null || true
+          mkdir -p _site/data
+          cp index.html styles.css app.js config.json _site/
+          cp data/ranking.json _site/data/
       - uses: actions/configure-pages@v5
+        if: ${{ !inputs.solo_probar }}
       - uses: actions/upload-pages-artifact@v3
+        if: ${{ !inputs.solo_probar }}
         with:
           path: _site
       - uses: actions/deploy-pages@v4
+        if: ${{ !inputs.solo_probar }}

@@ -4,9 +4,7 @@
   "type": "module",
   "scripts": {
     "update": "node scripts/update.mjs",
+    "probar": "node scripts/update.mjs --dry-run --debug",
     "serve": "npx --yes serve ."
-  },
-  "dependencies": {
-    "playwright-core": "1.48.2"
   }
 }
