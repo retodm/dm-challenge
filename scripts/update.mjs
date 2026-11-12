@@ -48,6 +48,10 @@ async function api(pathname, debugName) {
     const res = await fetch(BASE + pathname, {
       headers: { Authorization: KEY, Accept: "application/json" },
     });
+    if (DEBUG && reqCount <= 2) {
+      const h = [...res.headers].filter(([k]) => /rate|limit|retry/i.test(k));
+      console.log("  [debug] cabeceras de límite:", JSON.stringify(h));
+    }
     if (res.status === 429) {
       const ra = Number(res.headers.get("retry-after")) || 60;
       console.warn(`  límite de peticiones alcanzado, esperando ${ra}s…`);
@@ -150,10 +154,21 @@ async function updatePlayer(p, cache, config) {
       `/valorant/v3/matches/${region}/${enc(p.name)}/${enc(p.tag)}?mode=${mode.query}&size=10`,
       `matches_${mode.key}_${p.name}`
     );
+    if (DEBUG && recent?.data?.[0]) {
+      const r0 = recent.data[0];
+      console.log(`  [debug] ejemplo v3: metadata=${JSON.stringify(r0.metadata).slice(0, 400)}`);
+      const pl = Array.isArray(r0.players) ? r0.players[0] : r0.players?.all_players?.[0];
+      console.log(`  [debug] ejemplo jugador: ${JSON.stringify({ team: pl?.team ?? pl?.team_id, stats: pl?.stats })}`);
+    }
     for (const raw of recent?.data || []) {
       const m = normalizeMatch(raw);
       if (!m.id || mine[m.id] || !inAct(m.season, m.startedAt)) continue;
       const won = didWin(m, puuid, mode.key);
+      if (DEBUG) {
+        const me = m.players.find((x) => x.puuid === puuid);
+        const top = [...m.players].sort((a, b) => b.kills - a.kills).slice(0, 3).map((x) => x.kills);
+        console.log(`  [debug] v3 ${mode.key} ${m.id.slice(0, 8)} q=${m.queue} kills=${me?.kills} top=${top} equipos=${JSON.stringify(m.teams)} → ${won}`);
+      }
       if (won !== null) mine[m.id] = { mode: mode.key, won, at: m.startedAt };
     }
 
@@ -184,6 +199,7 @@ async function updatePlayer(p, cache, config) {
           const full = await api(`/valorant/v4/match/${region}/${id}`, `match_${id}`).catch(() => null);
           if (full?.data) won = didWin(normalizeMatch(full.data), puuid, mode.key);
         }
+        if (DEBUG) console.log(`  [debug] stored ${mode.key} ${id.slice(0, 8)} kills=${s.stats?.kills} team=${s.stats?.team} teams=${JSON.stringify(s.teams)} → ${won}`);
         if (won !== null) mine[id] = { mode: mode.key, won, at: s.meta?.started_at };
       }
       if (reachedOlder || list.length < 25) break;
@@ -238,6 +254,7 @@ async function main() {
   const seen = new Set();
   const players = [];
   for (const entry of entries) {
+    if (process.env.SOLO && !lc(entry.url).includes(lc(process.env.SOLO))) continue;
     const r = await run(entry, "→");
     if (!r || seen.has(lc(r.riotId))) continue;
     seen.add(lc(r.riotId));

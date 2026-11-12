@@ -9,6 +9,10 @@ on:
         description: "Solo probar (muestra resultados, no guarda ni publica)"
         type: boolean
         default: false
+      solo_jugador:
+        description: "Probar solo un jugador (texto de su URL, p. ej. Zumito). Vacío = todos"
+        type: string
+        default: ""
   push:
     branches: [main]
     paths: ["trackers.json", "config.json", "index.html", "styles.css", "app.js", "scripts/**", ".github/workflows/**"]
@@ -37,6 +41,8 @@ jobs:
       - name: Probar (sin guardar)
         if: ${{ inputs.solo_probar }}
         run: node scripts/update.mjs --dry-run --debug
+        env:
+          SOLO: ${{ inputs.solo_jugador }}
 
       - name: Subir respuestas de la API (para depurar)
         if: ${{ inputs.solo_probar }}
