@@ -157,27 +157,38 @@ async function updatePlayer(p, cache, config) {
     s ? lc(s) === lc(season) : config.inicioActo ? new Date(date) >= new Date(config.inicioActo) : false;
 
   for (const mode of MODES) {
-    // 1) Últimas partidas completas (incluyen a todos los jugadores → resultado exacto)
-    const recent = await api(
-      `/valorant/v3/matches/${region}/${enc(p.name)}/${enc(p.tag)}?mode=${mode.query}&size=10`,
-      `matches_${mode.key}_${p.name}`
-    );
-    if (DEBUG && recent?.data?.[0]) {
-      const r0 = recent.data[0];
-      console.log(`  [debug] ejemplo v3: metadata=${JSON.stringify(r0.metadata).slice(0, 400)}`);
-      const pl = Array.isArray(r0.players) ? r0.players[0] : r0.players?.all_players?.[0];
-      console.log(`  [debug] ejemplo jugador: ${JSON.stringify({ team: pl?.team ?? pl?.team_id, stats: pl?.stats })}`);
-    }
-    for (const raw of recent?.data || []) {
-      const m = normalizeMatch(raw);
-      if (!m.id || mine[m.id] || !inAct(m.season, m.startedAt)) continue;
-      const won = didWin(m, puuid, mode.key);
-      if (DEBUG) {
-        const me = m.players.find((x) => x.puuid === puuid);
-        const top = [...m.players].sort((a, b) => b.kills - a.kills).slice(0, 3).map((x) => x.kills);
-        console.log(`  [debug] v3 ${mode.key} ${m.id.slice(0, 8)} q=${m.queue} kills=${me?.kills} top=${top} equipos=${JSON.stringify(m.teams)} → ${won}`);
+    // 1) Historial de partidas completas (incluyen a todos los jugadores → resultado exacto).
+    //    Se pide página a página (10 partidas) hasta llegar a partidas de antes del acto,
+    //    o a una página en la que todas las partidas ya estaban guardadas.
+    let useV4 = true;
+    for (let start = 0, page = 0; page < 20; start += 10, page++) {
+      const q = `mode=${mode.query}&size=10&start=${start}`;
+      let res = null;
+      if (useV4) {
+        res = await api(`/valorant/v4/matches/${region}/pc/${enc(p.name)}/${enc(p.tag)}?${q}`, null).catch((e) => {
+          console.warn(`  v4 no disponible (${e.message}), uso v3`);
+          return undefined;
+        });
+        if (res === undefined) useV4 = false;
       }
-      if (won !== null) mine[m.id] = { mode: mode.key, won, at: m.startedAt };
+      if (!useV4) res = await api(`/valorant/v3/matches/${region}/${enc(p.name)}/${enc(p.tag)}?${q}`, null);
+      const list = res?.data || [];
+      let older = 0, known = 0, added = 0;
+      for (const raw of list) {
+        const m = normalizeMatch(raw);
+        if (!m.id) continue;
+        if (!inAct(m.season, m.startedAt)) { older++; continue; }
+        if (mine[m.id]) { known++; continue; }
+        const won = didWin(m, puuid, mode.key);
+        if (DEBUG) {
+          const me = m.players.find((x) => x.puuid === puuid);
+          const rival = [...m.players].filter((x) => x.puuid !== puuid).sort((a, b) => b.kills - a.kills)[0];
+          console.log(`  [debug] ${mode.key} ${m.id.slice(0, 8)} ${m.startedAt?.slice(0, 16)} mis kills=${me?.kills ?? "?"} mejor rival=${rival?.kills ?? "?"} → ${won ? "VICTORIA" : "derrota"}`);
+        }
+        if (won !== null) { mine[m.id] = { mode: mode.key, won, at: m.startedAt }; added++; }
+      }
+      if (DEBUG) console.log(`  [debug] página ${page + 1} (${useV4 ? "v4" : "v3"}): ${list.length} partidas · ${added} nuevas · ${known} ya guardadas · ${older} de otro acto`);
+      if (list.length === 0 || older > 0 || (known > 0 && added === 0)) break;
     }
 
     // 2) Historial guardado por HenrikDev (más largo, pero solo con mis estadísticas)
