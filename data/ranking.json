@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-12T23:51:24.103Z",
+  "updatedAt": "2026-11-12T23:59:47.766Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -16,7 +16,7 @@
       "tdmPlayed": 4,
       "wins": 42,
       "ok": true,
-      "lastOkAt": "2026-11-12T23:51:24.097Z"
+      "lastOkAt": "2026-11-12T23:59:47.763Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -31,7 +31,7 @@
       "tdmPlayed": 32,
       "wins": 18,
       "ok": true,
-      "lastOkAt": "2026-11-12T23:48:12.177Z"
+      "lastOkAt": "2026-11-12T23:54:26.720Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -46,7 +46,7 @@
       "tdmPlayed": 4,
       "wins": 4,
       "ok": true,
-      "lastOkAt": "2026-11-12T23:46:09.565Z"
+      "lastOkAt": "2026-11-12T23:53:17.969Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -57,11 +57,11 @@
       "avatar": "https://media.valorant-api.com/playercards/f35491d4-40a6-9988-1d9e-c097b445428a/smallart.png",
       "dmWins": 0,
       "tdmWins": 0,
-      "dmPlayed": 25,
+      "dmPlayed": 75,
       "tdmPlayed": 0,
       "wins": 0,
       "ok": true,
-      "lastOkAt": "2026-11-12T23:48:17.427Z"
+      "lastOkAt": "2026-11-12T23:57:37.064Z"
     }
   ]
 }
