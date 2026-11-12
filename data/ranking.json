@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-12T23:32:30.482Z",
+  "updatedAt": "2026-11-12T23:51:24.103Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -10,13 +10,13 @@
       "url": "https://tracker.gg/valorant/profile/riot/Huguicius%235613/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
       "puuid": "a93dadd0-eb5c-5411-8ac1-559fa6fdda3e",
       "avatar": "https://media.valorant-api.com/playercards/bfab82f0-42ca-1fd2-7d32-7ab950e42e8f/smallart.png",
-      "dmWins": 25,
-      "tdmWins": 0,
-      "dmPlayed": 64,
-      "tdmPlayed": 1,
-      "wins": 25,
+      "dmWins": 39,
+      "tdmWins": 3,
+      "dmPlayed": 93,
+      "tdmPlayed": 4,
+      "wins": 42,
       "ok": true,
-      "lastOkAt": "2026-11-12T23:32:30.469Z"
+      "lastOkAt": "2026-11-12T23:51:24.097Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -25,13 +25,13 @@
       "url": "https://tracker.gg/valorant/profile/riot/Deuve%23aot/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
       "puuid": "fe158399-d88f-5864-bfd0-7330a42f7d73",
       "avatar": "https://media.valorant-api.com/playercards/714965d1-469f-6661-1012-5d8664ca5e4a/smallart.png",
-      "dmWins": 5,
-      "tdmWins": 7,
-      "dmPlayed": 50,
-      "tdmPlayed": 19,
-      "wins": 12,
+      "dmWins": 6,
+      "tdmWins": 12,
+      "dmPlayed": 59,
+      "tdmPlayed": 32,
+      "wins": 18,
       "ok": true,
-      "lastOkAt": "2026-11-12T23:31:28.639Z"
+      "lastOkAt": "2026-11-12T23:48:12.177Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -40,13 +40,13 @@
       "url": "https://tracker.gg/valorant/profile/riot/Zumito%23CHUPO/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
       "puuid": "ade3e51c-341d-5658-9c3b-75bf9c9638ed",
       "avatar": "https://media.valorant-api.com/playercards/6ca6c154-4ec2-3656-ce84-a79b5a29a34e/smallart.png",
-      "dmWins": 0,
-      "tdmWins": 0,
-      "dmPlayed": 9,
-      "tdmPlayed": 1,
-      "wins": 0,
+      "dmWins": 2,
+      "tdmWins": 2,
+      "dmPlayed": 28,
+      "tdmPlayed": 4,
+      "wins": 4,
       "ok": true,
-      "lastOkAt": "2026-11-12T23:31:25.956Z"
+      "lastOkAt": "2026-11-12T23:46:09.565Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -61,7 +61,7 @@
       "tdmPlayed": 0,
       "wins": 0,
       "ok": true,
-      "lastOkAt": "2026-11-12T23:32:26.720Z"
+      "lastOkAt": "2026-11-12T23:48:17.427Z"
     }
   ]
 }
