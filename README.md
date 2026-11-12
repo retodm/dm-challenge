@@ -40,7 +40,7 @@ Al guardar se lanza la actualización automáticamente (tarda 1–3 min). Si la 
 2. *Settings → Pages → Build and deployment → Source:* **GitHub Actions**.
 3. *Settings → Actions → General → Workflow permissions:* **Read and write permissions**.
 4. Pestaña *Actions → "Actualizar ranking y publicar" → Run workflow*.
-5. La web queda en `https://TU-USUARIO.github.io/NOMBRE-REPO/`.
+5. La web queda en `https://carlosrodrih.github.io/dm-challenge/`.
 
 Si el repo es público, los minutos de Actions son gratis e ilimitados.
 
