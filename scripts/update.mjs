@@ -114,7 +114,7 @@ export function normalizeMatch(m) {
     score: p.stats?.score ?? 0,
   }));
   let teams = {};
-  if (Array.isArray(m.teams)) for (const t of m.teams) teams[lc(t.team_id)] = { won: t.won, rounds: t.rounds?.won };
+  if (Array.isArray(m.teams)) for (const t of m.teams) teams[lc(t.team_id)] = { won: t.won, rounds: t.rounds?.won, placement: t.placement };
   else if (m.teams) for (const [k, t] of Object.entries(m.teams)) if (t) teams[lc(k)] = { won: t.has_won, rounds: t.rounds_won };
   return { id, queue, season, startedAt, players, teams };
 }
@@ -123,6 +123,9 @@ export function normalizeMatch(m) {
 export function didWin(match, puuid, modeKey) {
   const me = match.players.find((p) => p.puuid === puuid);
   if (!me) return null;
+  // Marca oficial de Riot (en DM cada jugador es su propio "equipo"): es lo que usa tracker.gg
+  const official = match.teams[me.team];
+  if (official && typeof official.won === "boolean") return official.won;
   if (modeKey === "tdm") {
     const t = match.teams[me.team];
     if (t && typeof t.won === "boolean") return t.won;
@@ -195,7 +198,12 @@ async function updatePlayer(p, cache, config) {
         if (!inAct(m.season, m.startedAt)) { older++; olderInfo.push(`${m.startedAt?.slice(0, 10)} season=${m.season}`); continue; }
         if (mine[m.id]) { known++; continue; }
         const won = didWin(m, puuid, mode.key);
-        if (DEBUG) {
+        if (DEBUG && mode.key === "dm") {
+          const me = m.players.find((x) => x.puuid === puuid);
+          const byKills = [...m.players].sort((a, b) => b.kills - a.kills || b.score - a.score)[0]?.puuid === puuid;
+          if (byKills !== won) console.log(`  [debug] ≠ ${m.id.slice(0, 8)} Riot dice ${won ? "VICTORIA" : "derrota"} (puesto ${m.teams[me?.team]?.placement}, kills=${me?.kills}) · por kills sería ${byKills ? "victoria" : "derrota"}`);
+        }
+        if (DEBUG && false) {
           const me = m.players.find((x) => x.puuid === puuid);
           const rival = [...m.players].filter((x) => x.puuid !== puuid).sort((a, b) => b.kills - a.kills)[0];
           if (won) console.log(`  [debug] ${mode.key} ${m.id.slice(0, 8)} ${m.startedAt?.slice(0, 16)} mis kills=${me?.kills ?? "?"} mejor rival=${rival?.kills ?? "?"} → ${won ? "VICTORIA" : "derrota"}`);
