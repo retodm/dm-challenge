@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-13T11:45:32.678Z",
+  "updatedAt": "2026-11-13T11:58:14.124Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -19,7 +19,7 @@
       "tdmWins": 6,
       "wins": 59,
       "ok": true,
-      "lastOkAt": "2026-11-13T11:44:36.473Z"
+      "lastOkAt": "2026-11-13T11:57:12.432Z"
     },
     {
       "riotId": "UBT Davstylez#EUW",
@@ -28,7 +28,6 @@
       "url": "https://tracker.gg/valorant/profile/riot/UBT%20Davstylez%23EUW/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
       "puuid": "70ad4015-db8e-50cd-bd62-bad1539ab74a",
       "avatar": "https://media.valorant-api.com/playercards/3d7e411f-4310-5909-999e-9ab1f8831045/smallart.png",
-      "nuevo": true,
       "desde": "2026-11-13T11:45:32.674Z",
       "baseDm": 46,
       "baseTdm": 1,
@@ -38,7 +37,7 @@
       "tdmWins": 1,
       "wins": 47,
       "ok": true,
-      "lastOkAt": "2026-11-13T11:45:32.674Z"
+      "lastOkAt": "2026-11-13T11:58:14.121Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -56,7 +55,7 @@
       "tdmWins": 26,
       "wins": 34,
       "ok": true,
-      "lastOkAt": "2026-11-13T11:43:35.820Z"
+      "lastOkAt": "2026-11-13T11:56:10.320Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -74,7 +73,7 @@
       "tdmWins": 2,
       "wins": 4,
       "ok": true,
-      "lastOkAt": "2026-11-13T11:43:33.168Z"
+      "lastOkAt": "2026-11-13T11:56:08.291Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -92,7 +91,7 @@
       "tdmWins": 0,
       "wins": 1,
       "ok": true,
-      "lastOkAt": "2026-11-13T11:44:33.411Z"
+      "lastOkAt": "2026-11-13T11:57:09.755Z"
     }
   ]
 }
