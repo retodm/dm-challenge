@@ -2,7 +2,7 @@ name: Actualizar ranking y publicar
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # cada 30 min (GitHub puede retrasarlo unos minutos)
+    - cron: "17,47 * * * *"   # cada 30 min, en minutos poco usados (a :00 y :30 GitHub descarta muchas ejecuciones)
   workflow_dispatch:          # botón "Run workflow" en la pestaña Actions
     inputs:
       solo_probar:
