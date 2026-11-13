@@ -4,10 +4,11 @@
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "premio": "Tarjeta regalo de 20€ en Valorant Points",
   "finActo": "",
-  "inicioActo": "",
   "retador": {
     "nombre": "",
-    "tracker": ""
+    "tracker": "",
+    "victoriasDM": 0,
+    "victoriasTDM": 0
   },
   "redes": {
     "discord": "https://discord.gg/TU-INVITACION",

@@ -1,13 +1,14 @@
 // Actualiza data/ranking.json con las victorias de Deathmatch + Team Deathmatch
-// de cada jugador de trackers.json durante el acto (config.json → seasonId).
+// de cada jugador de trackers.json.
 //
-// Fuente: HenrikDev API (https://docs.henrikdev.xyz), que da acceso al historial
-// público de partidas de Riot. Requiere la variable de entorno HENRIK_API_KEY.
+// Funcionamiento:
+//   - Cada jugador entra con las victorias que ya tiene en tracker.gg
+//     (victoriasDM / victoriasTDM en trackers.json).
+//   - La primera vez que el script lo ve, apunta la fecha en "desde" (en trackers.json).
+//   - Desde ese momento suma cada victoria nueva de DM/TDM que encuentra en la API.
 //
-// Cada partida se guarda en data/matches.json la primera vez que se ve, así que:
-//   - nunca se cuenta dos veces,
-//   - no se pierde aunque salga del historial reciente de Riot,
-//   - cada partida solo se consulta una vez (menos peticiones).
+// Fuente: HenrikDev API (https://docs.henrikdev.xyz). Requiere HENRIK_API_KEY.
+// Cada partida contada se guarda en data/matches.json para no contarla dos veces.
 //
 // Uso:
 //   HENRIK_API_KEY=xxxx node scripts/update.mjs            → actualiza los ficheros
@@ -29,7 +30,6 @@ const MODES = [
   { key: "dm", query: "deathmatch", queues: ["deathmatch"] },
   { key: "tdm", query: "teamdeathmatch", queues: ["hurm", "teamdeathmatch"] },
 ];
-const DM_KILL_LIMIT = 40; // en DM gana quien llega a 40 kills (o quien más tenga al acabar el tiempo)
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const enc = encodeURIComponent;
@@ -45,7 +45,7 @@ let reqCount = 0;
 let remaining = Infinity;
 let resetAt = 0;
 
-async function api(pathname, debugName) {
+async function api(pathname) {
   for (let attempt = 1; attempt <= 4; attempt++) {
     if (remaining <= 1 && Date.now() < resetAt) await sleep(resetAt - Date.now() + 500);
     const gap = lastReq + MIN_GAP_MS - Date.now();
@@ -67,10 +67,6 @@ async function api(pathname, debugName) {
       continue;
     }
     const body = await res.json().catch(() => null);
-    if (DEBUG && debugName) {
-      await mkdir(path("debug/"), { recursive: true });
-      await writeFile(path(`debug/${debugName}.json`), JSON.stringify(body, null, 2));
-    }
     if (res.status === 404) return null;
     if (!res.ok) {
       const msg = body?.errors?.[0]?.message || body?.message || "";
@@ -140,12 +136,10 @@ export function didWin(match, puuid, modeKey) {
   return best?.puuid === puuid;
 }
 
-const modeOfQueue = (q) => MODES.find((m) => m.queues.includes(lc(q)) || lc(m.query) === lc(q).replace(/\s/g, ""));
-
 // ---------- jugador ----------
 
-async function updatePlayer(p, cache, config) {
-  const acc = await api(`/valorant/v1/account/${enc(p.name)}/${enc(p.tag)}`, `account_${p.name}`);
+async function updatePlayer(p, entry, cache, config) {
+  const acc = await api(`/valorant/v1/account/${enc(p.name)}/${enc(p.tag)}`);
   if (!acc?.data) throw new Error("Cuenta no encontrada (¿Riot ID cambiado?)");
   const { puuid } = acc.data;
   const region = acc.data.region || "eu";
@@ -154,117 +148,52 @@ async function updatePlayer(p, cache, config) {
   p.name = acc.data.name || p.name;
   p.tag = acc.data.tag || p.tag;
 
+  const desde = entry.desde ? new Date(entry.desde) : null;
+  if (desde && isNaN(desde)) throw new Error(`Fecha "desde" no válida: ${entry.desde}`);
   const mine = (cache[puuid] ||= {});
-  const season = config.seasonId;
-  const inAct = (s, date) =>
-    s ? lc(s) === lc(season) : config.inicioActo ? new Date(date) >= new Date(config.inicioActo) : false;
 
-  for (const mode of MODES) {
-    // 1) Historial de partidas completas (incluyen a todos los jugadores → resultado exacto).
-    //    Se pide página a página (10 partidas) hasta llegar a partidas de antes del acto,
-    //    o a una página en la que todas las partidas ya estaban guardadas.
-    const bf = (cache._historialCompleto ||= {});
-    const bfKey = `${puuid}:${mode.key}`;
-    let useV4 = true;
-    for (let start = 0, page = 0; page < 20; start += 10, page++) {
-      const q = `mode=${mode.query}&size=10&start=${start}`;
-      let res = null;
-      if (useV4) {
-        res = await api(`/valorant/v4/matches/${region}/pc/${enc(p.name)}/${enc(p.tag)}?${q}`, null).catch((e) => {
-          console.warn(`  v4 no disponible (${e.message}), uso v3`);
-          return undefined;
-        });
-        if (res === undefined) useV4 = false;
-      }
-      if (!useV4) res = await api(`/valorant/v3/matches/${region}/${enc(p.name)}/${enc(p.tag)}?${q}`, null);
-      const list = res?.data || [];
-      let older = 0, known = 0, added = 0;
-      const dates = [], olderInfo = [];
-      if (process.env.DUMP && page === 0 && list[0]) {
-        const r = list[0];
-        const pl = (Array.isArray(r.players) ? r.players : r.players?.all_players || []);
-        const meP = pl.find((x) => x.puuid === puuid) || pl[0];
-        const strip = (o) => Object.fromEntries(Object.entries(o || {}).filter(([k]) => !/ability|cast|behavior|economy|customization|assets|card|title/i.test(k)));
-        console.log(`  [dump] claves partida: ${Object.keys(r)}`);
-        console.log(`  [dump] teams: ${JSON.stringify(r.teams).slice(0, 1500)}`);
-        console.log(`  [dump] metadata: ${JSON.stringify(strip(r.metadata)).slice(0, 800)}`);
-        console.log(`  [dump] yo: ${JSON.stringify(strip(meP)).slice(0, 1200)}`);
-        console.log(`  [dump] otras claves: ${JSON.stringify(Object.fromEntries(Object.entries(r).filter(([k]) => !["players", "teams", "metadata", "kills", "rounds"].includes(k)).map(([k, v]) => [k, JSON.stringify(v).slice(0, 300)])))}`);
-      }
-      for (const raw of list) {
-        const m = normalizeMatch(raw);
-        if (!m.id) continue;
-        dates.push(m.startedAt);
-        if (!inAct(m.season, m.startedAt)) { older++; olderInfo.push(`${m.startedAt?.slice(0, 10)} season=${m.season}`); continue; }
-        if (mine[m.id]) { known++; continue; }
-        const won = didWin(m, puuid, mode.key);
-        if (DEBUG && mode.key === "dm") {
-          const me = m.players.find((x) => x.puuid === puuid);
-          const byKills = [...m.players].sort((a, b) => b.kills - a.kills || b.score - a.score)[0]?.puuid === puuid;
-          if (byKills !== won) console.log(`  [debug] ≠ ${m.id.slice(0, 8)} Riot dice ${won ? "VICTORIA" : "derrota"} (puesto ${m.teams[me?.team]?.placement}, kills=${me?.kills}) · por kills sería ${byKills ? "victoria" : "derrota"}`);
-        }
-        if (DEBUG && false) {
-          const me = m.players.find((x) => x.puuid === puuid);
-          const rival = [...m.players].filter((x) => x.puuid !== puuid).sort((a, b) => b.kills - a.kills)[0];
-          if (won) console.log(`  [debug] ${mode.key} ${m.id.slice(0, 8)} ${m.startedAt?.slice(0, 16)} mis kills=${me?.kills ?? "?"} mejor rival=${rival?.kills ?? "?"} → ${won ? "VICTORIA" : "derrota"}`);
-        }
-        if (won !== null) { mine[m.id] = { mode: mode.key, won, at: m.startedAt }; added++; }
-      }
-      if (DEBUG) console.log(`  [debug] historial ${mode.key} pág ${page + 1} (${useV4 ? "v4" : "v3"}): ${list.length} partidas [${dates.at(-1)?.slice(0, 10)} … ${dates[0]?.slice(0, 10)}] · ${added} nuevas · ${known} guardadas · ${older} de otro acto ${olderInfo.join(", ")}`);
-      if (list.length === 0 || older > 0 || list.length < 10) { bf[bfKey] = true; break; }
-      if (bf[bfKey] && known > 0 && added === 0) break; // ya teníamos el resto
-    }
+  // Jugador nuevo: se marca la fecha y no hace falta consultar partidas todavía
+  if (!desde) {
+    entry.desde = new Date().toISOString();
+    p.nuevo = true;
+  } else {
+    const season = config.seasonId;
+    const cuenta = (m) => (!m.season || lc(m.season) === lc(season)) && m.startedAt && new Date(m.startedAt) > desde;
 
-    // 2) Historial guardado por HenrikDev (más largo, pero solo con mis estadísticas)
-    for (let page = 1; page <= 10; page++) {
-      const st = await api(
-        `/valorant/v1/stored-matches/${region}/${enc(p.name)}/${enc(p.tag)}?mode=${mode.query}&page=${page}&size=25`,
-        page === 1 ? `stored_${mode.key}_${p.name}` : null
-      );
-      const list = st?.data || [];
-      let reachedOlder = false, sIn = 0, sOld = 0, sKnown = 0;
-      const sOldInfo = [];
-      for (const s of list) {
-        const id = s.meta?.id;
-        const sSeason = s.meta?.season?.id;
-        if (!id) continue;
-        if (!inAct(sSeason, s.meta?.started_at)) { reachedOlder = true; sOld++; if (sOldInfo.length < 3) sOldInfo.push(`${s.meta?.started_at?.slice(0, 10)} season=${sSeason}`); continue; }
-        sIn++;
-        if (mine[id]) { sKnown++; continue; }
-        let won = null;
-        if (mode.key === "tdm" && s.teams && s.stats?.team) {
-          const myTeam = lc(s.stats.team);
-          const other = myTeam === "red" ? "blue" : "red";
-          if (s.teams[myTeam] != null && s.teams[other] != null) won = s.teams[myTeam] > s.teams[other];
-        } else if (mode.key === "dm" && (s.stats?.kills ?? 0) >= DM_KILL_LIMIT) {
-          won = true;
+    for (const mode of MODES) {
+      // Se piden páginas de 10 partidas (las más recientes primero) hasta llegar a partidas
+      // anteriores a "desde". Siempre se revisan al menos 2 páginas por si alguna partida
+      // no estaba disponible en la pasada anterior.
+      for (let page = 0; page < 10; page++) {
+        const q = `mode=${mode.query}&size=10&start=${page * 10}`;
+        const res = await api(`/valorant/v4/matches/${region}/pc/${enc(p.name)}/${enc(p.tag)}?${q}`);
+        const list = res?.data || [];
+        let older = 0, known = 0, added = 0;
+        for (const raw of list) {
+          const m = normalizeMatch(raw);
+          if (!m.id) continue;
+          if (!cuenta(m)) { older++; continue; }
+          if (mine[m.id]) { known++; continue; }
+          const won = didWin(m, puuid, mode.key);
+          if (won === null) continue;
+          mine[m.id] = { mode: mode.key, won, at: m.startedAt };
+          added++;
+          if (DEBUG) console.log(`  [debug] ${mode.key} ${m.startedAt?.slice(0, 16)} ${m.id.slice(0, 8)} → ${won ? "VICTORIA" : "derrota"}`);
         }
-        if (won === null) {
-          // Resultado dudoso → se consulta la partida completa (una sola vez)
-          const full = await api(`/valorant/v4/match/${region}/${id}`, `match_${id}`).catch(() => null);
-          if (full?.data) won = didWin(normalizeMatch(full.data), puuid, mode.key);
-        }
-        if (DEBUG && won) console.log(`  [debug] guardada ${mode.key} ${id.slice(0, 8)} ${s.meta?.started_at?.slice(0, 16)} kills=${s.stats?.kills} → VICTORIA`);
-        if (won !== null) mine[id] = { mode: mode.key, won, at: s.meta?.started_at };
+        if (DEBUG) console.log(`  [debug] ${mode.key} pág ${page + 1}: ${list.length} partidas · ${added} nuevas · ${known} ya contadas · ${older} anteriores a "desde"`);
+        if (list.length < 10 || older > 0 || (page >= 1 && added === 0)) break;
       }
-      if (DEBUG) console.log(`  [debug] guardadas ${mode.key} pág ${page}: ${list.length} partidas · ${sIn} del acto (${sKnown} ya vistas) · ${sOld} de otro acto ${sOldInfo.join(", ")}`);
-      if (reachedOlder || list.length < 25) break;
     }
   }
 
-  const vals = Object.values(mine);
-  p.dmWins = vals.filter((v) => v.mode === "dm" && v.won).length;
-  p.tdmWins = vals.filter((v) => v.mode === "tdm" && v.won).length;
-  p.dmPlayed = vals.filter((v) => v.mode === "dm").length;
-  p.tdmPlayed = vals.filter((v) => v.mode === "tdm").length;
-  // Ajuste manual (trackers.json → extraDM / extraTDM): victorias que ya no salen en el
-  // historial de Riot pero sí en tracker.gg. Se suman a las encontradas por la API.
-  p.extraDM = Number(p.extraDM) || 0;
-  p.extraTDM = Number(p.extraTDM) || 0;
-  p.apiDmWins = p.dmWins;
-  p.apiTdmWins = p.tdmWins;
-  p.dmWins += p.extraDM;
-  p.tdmWins += p.extraTDM;
+  const vals = Object.values(mine).filter((v) => !desde || new Date(v.at) > desde);
+  p.desde = entry.desde;
+  p.baseDm = Number(entry.victoriasDM) || 0;
+  p.baseTdm = Number(entry.victoriasTDM) || 0;
+  p.newDm = vals.filter((v) => v.mode === "dm" && v.won).length;
+  p.newTdm = vals.filter((v) => v.mode === "tdm" && v.won).length;
+  p.dmWins = p.baseDm + p.newDm;
+  p.tdmWins = p.baseTdm + p.newTdm;
   p.wins = p.dmWins + p.tdmWins;
   return p;
 }
@@ -276,50 +205,61 @@ async function main() {
     console.error("Falta la variable de entorno HENRIK_API_KEY.");
     process.exit(1);
   }
-  const config = JSON.parse(await readFile(path("config.json"), "utf8"));
-  const list = JSON.parse(await readFile(path("trackers.json"), "utf8"));
   const read = async (f, def) => (existsSync(path(f)) ? JSON.parse(await readFile(path(f), "utf8")) : def);
+  const config = await read("config.json", {});
+  const rawList = await read("trackers.json", []);
   const prev = await read("data/ranking.json", {});
-  const cache = process.env.SIN_CACHE ? {} : await read("data/matches.json", {});
-  const prevBy = new Map(
-    [...(prev.players || []), prev.retador].filter(Boolean).map((x) => [lc(x.riotId), x])
-  );
+  const cache = await read("data/matches.json", {});
+  const prevBy = new Map([...(prev.players || []), prev.retador].filter(Boolean).map((x) => [lc(x.riotId), x]));
+
+  // Se admiten URLs sueltas o objetos; se normaliza todo a objetos
+  const list = rawList.map((x) => (typeof x === "string" ? { url: x } : x)).filter((x) => x.url?.trim());
+  let trackersChanged = list.some((x, i) => typeof rawList[i] === "string");
+  let configChanged = false;
 
   async function run(entry, label) {
     let p;
     try { p = parseTracker(entry.url); } catch (e) { console.error(e.message); return null; }
     if (entry.nombre) p.displayName = entry.nombre;
-    if (entry.extraDM) p.extraDM = entry.extraDM;
-    if (entry.extraTDM) p.extraTDM = entry.extraTDM;
     const old = prevBy.get(lc(p.riotId));
+    const hadDesde = !!entry.desde;
     console.log(`${label} ${p.riotId}`);
     try {
-      await updatePlayer(p, cache, config);
-      const ext = p.extraDM || p.extraTDM ? ` (incluye ajuste manual: DM +${p.extraDM}, TDM +${p.extraTDM})` : "";
-      console.log(`  ✓ DM ${p.dmWins} (${p.dmPlayed} jugadas) + TDM ${p.tdmWins} (${p.tdmPlayed} jugadas) → ${p.wins} victorias${ext}`);
-      return { ...p, ok: true, lastOkAt: new Date().toISOString() };
+      await updatePlayer(p, entry, cache, config);
+      if (!hadDesde) console.log(`  ★ nuevo: empieza a contar desde ${entry.desde} con DM ${p.baseDm} + TDM ${p.baseTdm}`);
+      else console.log(`  ✓ DM ${p.baseDm}+${p.newDm} · TDM ${p.baseTdm}+${p.newTdm} → ${p.wins} victorias`);
+      return { p: { ...p, ok: true, lastOkAt: new Date().toISOString() }, marked: !hadDesde };
     } catch (e) {
       console.error(`  ✗ ${e.message}`);
+      const base = { dmWins: Number(entry.victoriasDM) || 0, tdmWins: Number(entry.victoriasTDM) || 0 };
+      const keep = old ? { avatar: old.avatar, dmWins: old.dmWins, tdmWins: old.tdmWins, baseDm: old.baseDm, baseTdm: old.baseTdm, newDm: old.newDm, newTdm: old.newTdm, desde: old.desde } : base;
       return {
-        ...p, ...(old ? { avatar: old.avatar, dmWins: old.dmWins, tdmWins: old.tdmWins, wins: old.wins } : { dmWins: 0, tdmWins: 0, wins: 0 }),
-        ok: false, error: e.message, lastOkAt: old?.lastOkAt || null,
+        p: { ...p, ...keep, wins: (keep.dmWins || 0) + (keep.tdmWins || 0), ok: false, error: e.message, lastOkAt: old?.lastOkAt || null },
+        marked: false,
       };
     }
   }
 
-  const entries = list.map((x) => (typeof x === "string" ? { url: x } : x)).filter((x) => x.url?.trim());
   const seen = new Set();
   const players = [];
-  for (const entry of entries) {
+  for (const entry of list) {
     if (process.env.SOLO && !process.env.SOLO.split(",").some((t) => lc(decodeURIComponent(entry.url)).includes(lc(t.trim())))) continue;
     const r = await run(entry, "→");
-    if (!r || seen.has(lc(r.riotId))) continue;
-    seen.add(lc(r.riotId));
-    players.push(r);
+    if (!r) continue;
+    if (r.marked) trackersChanged = true;
+    if (seen.has(lc(r.p.riotId))) continue;
+    seen.add(lc(r.p.riotId));
+    players.push(r.p);
   }
-  const retador = config.retador?.tracker
-    ? await run({ url: config.retador.tracker, nombre: config.retador.nombre }, "★")
-    : null;
+
+  let retador = null;
+  if (config.retador?.tracker) {
+    const r = await run({ ...config.retador, url: config.retador.tracker }, "🎯");
+    if (r) {
+      retador = r.p;
+      if (r.marked) { config.retador.desde = retador.desde; configChanged = true; }
+    }
+  }
 
   players.sort((a, b) => b.wins - a.wins || b.dmWins - a.dmWins || a.riotId.localeCompare(b.riotId));
   const okCount = players.filter((x) => x.ok).length;
@@ -329,11 +269,14 @@ async function main() {
   if (DRY) { console.log("(--dry-run: no se guarda nada)"); return; }
   if (players.length && okCount === 0) { process.exitCode = 1; return; } // no pisar datos buenos
 
+  const json = (o) => JSON.stringify(o, null, 2) + "\n";
   await mkdir(path("data/"), { recursive: true });
+  if (trackersChanged) await writeFile(path("trackers.json"), json(list));
+  if (configChanged) await writeFile(path("config.json"), json(config));
   await writeFile(path("data/matches.json"), JSON.stringify(cache) + "\n");
   await writeFile(
     path("data/ranking.json"),
-    JSON.stringify({ updatedAt: new Date().toISOString(), seasonId: config.seasonId, retador, players }, null, 2) + "\n"
+    json({ updatedAt: new Date().toISOString(), seasonId: config.seasonId, retador, players })
   );
 }
 

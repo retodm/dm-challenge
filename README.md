@@ -8,14 +8,15 @@ Web estática (GitHub Pages) con el ranking del reto: victorias de **Deathmatch 
 trackers.json ──► GitHub Actions (cada 30 min) ──► data/ranking.json ──► GitHub Pages (index.html)
 ```
 
-- Los datos se piden **una sola vez cada 30 min desde GitHub**, no desde cada visitante. La web solo lee `data/ranking.json`.
-- Fuente: [HenrikDev API](https://docs.henrikdev.xyz) (historial público de partidas de Riot). tracker.gg no tiene API pública para Valorant y bloquea las peticiones desde servidores.
-- Cada partida del acto se guarda en `data/matches.json` la primera vez que aparece: no se cuenta dos veces y no se pierde aunque salga del historial reciente.
-- En **DM** gana quien acaba con más kills; en **TDM**, el equipo ganador.
-- Límite de la clave gratuita de HenrikDev: **30 peticiones/minuto**. El script lee las cabeceras de la API y va lo más rápido que permite sin pasarse. Cada jugador nuevo cuesta unas 6–10 peticiones la primera vez (más si tiene muchas partidas) y luego ~5 por actualización, así que con 30 jugadores una actualización tarda unos 5–6 min. Si se queda corto, HenrikDev ofrece claves de mayor límite solicitándolas en su Discord.
+- Cada participante entra con las victorias que **ya tiene en tracker.gg** (`victoriasDM`, `victoriasTDM`).
+- La primera vez que el script lo ve, apunta la fecha en `"desde"` (en el propio `trackers.json`).
+- Desde ese momento suma cada victoria nueva de DM y TDM. **Total = victorias al entrar + victorias nuevas.**
+- Los datos se piden **una sola vez cada 30 min desde GitHub**, no desde cada visitante.
+- Fuente: [HenrikDev API](https://docs.henrikdev.xyz) (historial de partidas de Riot). tracker.gg no tiene API pública para Valorant.
+- Por qué así: Riot solo devuelve el historial **reciente**, así que las partidas antiguas pueden faltar. Partiendo del número de tracker.gg y consultando cada 30 min, no se pierde ninguna.
+- Cada partida contada se guarda en `data/matches.json`, así que nunca se cuenta dos veces.
+- Límite de la clave gratuita de HenrikDev: **30 peticiones/minuto**. El script lee las cabeceras de la API y va lo más rápido que permite sin pasarse (~5 peticiones por jugador y actualización: con 30 jugadores, unos 5 min). Si se queda corto, HenrikDev ofrece claves de mayor límite en su Discord.
 - Si un jugador falla, se conserva su último dato y aparece un ⚠ junto a su nombre.
-
-> Riot solo expone un historial reciente, así que las partidas jugadas antes de entrar en el ranking pueden faltar: se corrigen con el ajuste manual (ver abajo). El resultado oficial es la revisión en directo de los trackers.
 
 ## Clave de HenrikDev (una vez)
 
@@ -24,38 +25,32 @@ trackers.json ──► GitHub Actions (cada 30 min) ──► data/ranking.json
 
 ## Añadir participantes
 
-Edita `trackers.json` (desde la web de GitHub sirve: icono del lápiz → *Commit changes*). Cada línea es la URL de un tracker:
+Edita `trackers.json` (desde la web de GitHub: icono del lápiz → *Commit changes*). Añade un bloque por jugador con su URL de tracker y sus victorias actuales en tracker.gg **de este acto**:
 
 ```json
 [
-  "https://tracker.gg/valorant/profile/riot/Zumito%23CHUPO/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
-  { "url": "https://tracker.gg/valorant/profile/riot/Deuve%23aot/overview", "nombre": "Nombre opcional a mostrar" }
+  {
+    "url": "https://tracker.gg/valorant/profile/riot/Zumito%23CHUPO/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
+    "victoriasDM": 2,
+    "victoriasTDM": 2
+  }
 ]
 ```
 
-### Ajuste manual (`extraDM` / `extraTDM`)
+- **victoriasDM**: *Wins* del tracker con `playlist=deathmatch`.
+- **victoriasTDM**: *Wins* con `playlist=hurm` (Team Deathmatch). Cambia eso en la URL para verlo.
+- Opcional: `"nombre": "Texto a mostrar"` en lugar del Riot ID.
+- **No pongas `"desde"`**: al guardar se lanza la actualización (1–3 min) y el script lo añade solo con la fecha y hora de ese momento. Si quieres fijarla a mano, usa el formato `"2026-11-13T18:00:00+01:00"`.
 
-Riot solo devuelve el historial **reciente** de cada jugador. Las partidas jugadas antes de que el jugador entrara en el ranking pueden no aparecer (tracker.gg sí las tiene porque las guarda según se juegan). Para compensarlo, una sola vez por jugador:
-
-1. Mira sus *Wins* en tracker.gg (Deathmatch y, si hace falta, Team Deathmatch) y compáralas con la web.
-2. Añade la diferencia a su entrada:
-
-```json
-{ "url": "https://tracker.gg/valorant/profile/riot/Huguicius%235613/overview?...", "extraDM": 14, "extraTDM": 0 }
-```
-
-El ajuste se suma a lo que encuentre la API y **no hay que volver a tocarlo**: desde que un jugador está en el ranking, cada partida nueva se guarda en cuanto aparece (cada 30 min), así que no se pierde ninguna.
-
-Al guardar se lanza la actualización automáticamente (tarda 1–3 min). Si la URL no lleva `season=`, se usa `seasonId` de `config.json`.
+Para corregir las victorias iniciales de alguien basta con cambiar `victoriasDM`/`victoriasTDM`; las victorias nuevas ya contadas se mantienen.
 
 ## Configuración (`config.json`)
 
 | Campo | Para qué |
 |---|---|
 | `seasonId` | ID del acto en tracker.gg (V26:A6 = `d816f426-…`) |
-| `inicioActo` | Solo por si la API no devuelve el acto de alguna partida: cuenta las jugadas desde esta fecha. Normalmente vacío |
 | `finActo` | Fecha de fin, p. ej. `"2026-12-10T12:00:00+01:00"`. Activa la cuenta atrás. Vacío = sin cuenta atrás |
-| `retador.tracker` | Tu tracker. Se muestra como "Marca a batir" y no entra en el podio |
+| `retador` | Tu tracker (`tracker`), `victoriasDM`, `victoriasTDM` y opcionalmente `nombre`. Se muestra como "Marca a batir" y no entra en el podio. Funciona igual que un participante |
 | `redes.*` | Enlaces a Discord y redes sociales. Las vacías no se muestran |
 
 ## Publicar en GitHub Pages (una vez)

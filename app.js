@@ -38,9 +38,10 @@
       ? `<span class="stale" title="No se pudo actualizar en la última pasada. Dato de ${esc(fmtAgo(p.lastOkAt))}.">⚠</span>`
       : "";
 
+  const fmtDate = (iso) => (iso ? new Date(iso).toLocaleString("es-ES", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "");
   const extraNote = (p) =>
-    p.extraDM || p.extraTDM
-      ? ` title="Incluye victorias añadidas a mano (partidas antiguas que ya no da la API de Riot): DM +${p.extraDM || 0}, TDM +${p.extraTDM || 0}"`
+    p.desde
+      ? ` title="Al entrar en el reto (${fmtDate(p.desde)}): DM ${p.baseDm ?? 0} · TDM ${p.baseTdm ?? 0}. Ganadas desde entonces: DM +${p.newDm ?? 0} · TDM +${p.newTdm ?? 0}"`
       : "";
 
   let record = null; // victorias del retador (marca a batir)

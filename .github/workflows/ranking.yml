@@ -13,10 +13,6 @@ on:
         description: "Probar solo un jugador (texto de su URL, p. ej. Zumito). Vacío = todos"
         type: string
         default: ""
-      sin_cache:
-        description: "Ignorar partidas ya guardadas (solo en modo prueba)"
-        type: boolean
-        default: false
   push:
     branches: [main]
     paths: ["trackers.json", "config.json", "index.html", "styles.css", "app.js", "scripts/**", ".github/workflows/**"]
@@ -47,16 +43,6 @@ jobs:
         run: node scripts/update.mjs --dry-run --debug
         env:
           SOLO: ${{ inputs.solo_jugador }}
-          SIN_CACHE: ${{ inputs.sin_cache && '1' || '' }}
-          DUMP: ${{ inputs.sin_cache && '1' || '' }}
-
-      - name: Subir respuestas de la API (para depurar)
-        if: ${{ inputs.solo_probar }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug
-          path: debug/
-          if-no-files-found: ignore
 
       - name: Obtener datos
         if: ${{ !inputs.solo_probar }}
@@ -67,7 +53,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
-          git add data/
+          git add data/ trackers.json config.json
           git diff --cached --quiet || git commit -m "Actualizar ranking [skip ci]"
           git pull --rebase -q && git push
 
