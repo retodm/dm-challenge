@@ -97,22 +97,18 @@
     $("#socialHelp").innerHTML = links;
   }
 
-  let countdownTimer;
+  // Días que faltan hasta el fin del acto (por fecha de calendario, sin horas)
   function renderCountdown(fin) {
     const el = $("#countdown");
-    if (!fin) return el.classList.add("hidden");
-    const end = new Date(fin);
-    if (isNaN(end)) return el.classList.add("hidden");
-    const tick = () => {
-      const ms = end - Date.now();
-      if (ms <= 0) { el.textContent = "🏁 Acto terminado"; return clearInterval(countdownTimer); }
-      const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60;
-      el.textContent = `⏳ Quedan ${d}d ${h}h ${m}m`;
-    };
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(fin || "");
+    if (!m) return el.classList.add("hidden");
+    const now = new Date();
+    const end = Date.UTC(+m[1], +m[2] - 1, +m[3]);
+    const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    const days = Math.round((end - today) / 864e5);
+    el.textContent =
+      days > 1 ? `⏳ Quedan ${days} días` : days === 1 ? "⏳ Queda 1 día" : days === 0 ? "⏳ ¡Último día!" : "🏁 Acto terminado";
     el.classList.remove("hidden");
-    tick();
-    clearInterval(countdownTimer);
-    countdownTimer = setInterval(tick, 30000);
   }
 
   async function getJson(url) {

@@ -49,8 +49,8 @@ Para corregir las victorias iniciales de alguien basta con cambiar `victoriasDM`
 | Campo | Para qué |
 |---|---|
 | `seasonId` | ID del acto en tracker.gg (V26:A6 = `d816f426-…`) |
-| `finActo` | Fecha de fin, p. ej. `"2026-12-10T12:00:00+01:00"`. Activa la cuenta atrás. Vacío = sin cuenta atrás |
-| `retador` | Tu tracker (`tracker`), `victoriasDM`, `victoriasTDM` y opcionalmente `nombre`. Se muestra como "Marca a batir" y no entra en el podio. Funciona igual que un participante |
+| `finActo` | Fecha de fin (`"AAAA-MM-DD"`, p. ej. `"2027-01-06"`). Muestra los días que faltan. Vacío = sin cuenta atrás |
+| `retador` | Opcional. Añádelo con `tracker`, `victoriasDM`, `victoriasTDM` (y `nombre`) para mostrar una "Marca a batir" fuera del podio |
 | `redes.*` | Enlaces a Discord y redes sociales. Las vacías no se muestran |
 
 ## Publicar en GitHub Pages (una vez)
