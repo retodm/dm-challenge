@@ -5,15 +5,15 @@ Web estática (GitHub Pages) con el ranking del reto: victorias de **Deathmatch 
 ## Cómo funciona
 
 ```
-trackers.json ──► GitHub Actions (cada 30 min) ──► data/ranking.json ──► GitHub Pages (index.html)
+trackers.json ──► GitHub Actions (cada varias horas) ──► data/ranking.json ──► GitHub Pages (index.html)
 ```
 
 - Cada participante entra con las victorias que **ya tiene en tracker.gg** (`victoriasDM`, `victoriasTDM`).
 - La primera vez que el script lo ve, apunta la fecha en `"desde"` (en el propio `trackers.json`).
 - Desde ese momento suma cada victoria nueva de DM y TDM. **Total = victorias al entrar + victorias nuevas.**
-- Los datos se piden **una sola vez cada 30 min desde GitHub**, no desde cada visitante.
+- Los datos se piden **una sola vez en cada actualización desde GitHub** (automática, cada varias horas), no desde cada visitante.
 - Fuente: [HenrikDev API](https://docs.henrikdev.xyz) (historial de partidas de Riot). tracker.gg no tiene API pública para Valorant.
-- Por qué así: Riot solo devuelve el historial **reciente**, así que las partidas antiguas pueden faltar. Partiendo del número de tracker.gg y consultando cada 30 min, no se pierde ninguna.
+- Por qué así: Riot solo devuelve el historial **reciente**, así que las partidas antiguas pueden faltar. Partiendo del número de tracker.gg y consultando periódicamente, no se pierde ninguna mientras no pasen demasiados días sin actualizar.
 - Cada partida contada se guarda en `data/matches.json`, así que nunca se cuenta dos veces.
 - Límite de la clave gratuita de HenrikDev: **30 peticiones/minuto**. El script lee las cabeceras de la API y va lo más rápido que permite sin pasarse (~5 peticiones por jugador y actualización: con 30 jugadores, unos 5 min). Si se queda corto, HenrikDev ofrece claves de mayor límite en su Discord.
 - Si un jugador falla, se conserva su último dato y aparece un ⚠ junto a su nombre.
