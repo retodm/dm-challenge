@@ -177,6 +177,17 @@ async function updatePlayer(p, cache, config) {
       const list = res?.data || [];
       let older = 0, known = 0, added = 0;
       const dates = [], olderInfo = [];
+      if (process.env.DUMP && page === 0 && list[0]) {
+        const r = list[0];
+        const pl = (Array.isArray(r.players) ? r.players : r.players?.all_players || []);
+        const meP = pl.find((x) => x.puuid === puuid) || pl[0];
+        const strip = (o) => Object.fromEntries(Object.entries(o || {}).filter(([k]) => !/ability|cast|behavior|economy|customization|assets|card|title/i.test(k)));
+        console.log(`  [dump] claves partida: ${Object.keys(r)}`);
+        console.log(`  [dump] teams: ${JSON.stringify(r.teams).slice(0, 1500)}`);
+        console.log(`  [dump] metadata: ${JSON.stringify(strip(r.metadata)).slice(0, 800)}`);
+        console.log(`  [dump] yo: ${JSON.stringify(strip(meP)).slice(0, 1200)}`);
+        console.log(`  [dump] otras claves: ${JSON.stringify(Object.fromEntries(Object.entries(r).filter(([k]) => !["players", "teams", "metadata", "kills", "rounds"].includes(k)).map(([k, v]) => [k, JSON.stringify(v).slice(0, 300)])))}`);
+      }
       for (const raw of list) {
         const m = normalizeMatch(raw);
         if (!m.id) continue;

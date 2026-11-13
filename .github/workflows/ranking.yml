@@ -48,6 +48,7 @@ jobs:
         env:
           SOLO: ${{ inputs.solo_jugador }}
           SIN_CACHE: ${{ inputs.sin_cache && '1' || '' }}
+          DUMP: ${{ inputs.sin_cache && '1' || '' }}
 
       - name: Subir respuestas de la API (para depurar)
         if: ${{ inputs.solo_probar }}
