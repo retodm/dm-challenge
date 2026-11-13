@@ -7,8 +7,8 @@
   },
   {
     "url": "https://tracker.gg/valorant/profile/riot/Deuve%23aot/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
-    "victoriasDM": 6,
-    "victoriasTDM": 12,
+    "victoriasDM": 8,
+    "victoriasTDM": 26,
     "desde": "2026-11-13T11:28:36.000Z"
   },
   {
@@ -20,7 +20,12 @@
   {
     "url": "https://tracker.gg/valorant/profile/riot/Huguicius%235613/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
     "victoriasDM": 53,
-    "victoriasTDM": 3,
+    "victoriasTDM": 6,
     "desde": "2026-11-13T11:28:55.033Z"
+  },
+  {
+    "url": "https://tracker.gg/valorant/profile/riot/UBT%20Davstylez%23EUW/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
+    "victoriasDM": 46,
+    "victoriasTDM": 1
   }
 ]
