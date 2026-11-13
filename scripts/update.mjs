@@ -257,6 +257,14 @@ async function updatePlayer(p, cache, config) {
   p.tdmWins = vals.filter((v) => v.mode === "tdm" && v.won).length;
   p.dmPlayed = vals.filter((v) => v.mode === "dm").length;
   p.tdmPlayed = vals.filter((v) => v.mode === "tdm").length;
+  // Ajuste manual (trackers.json → extraDM / extraTDM): victorias que ya no salen en el
+  // historial de Riot pero sí en tracker.gg. Se suman a las encontradas por la API.
+  p.extraDM = Number(p.extraDM) || 0;
+  p.extraTDM = Number(p.extraTDM) || 0;
+  p.apiDmWins = p.dmWins;
+  p.apiTdmWins = p.tdmWins;
+  p.dmWins += p.extraDM;
+  p.tdmWins += p.extraTDM;
   p.wins = p.dmWins + p.tdmWins;
   return p;
 }
@@ -281,11 +289,14 @@ async function main() {
     let p;
     try { p = parseTracker(entry.url); } catch (e) { console.error(e.message); return null; }
     if (entry.nombre) p.displayName = entry.nombre;
+    if (entry.extraDM) p.extraDM = entry.extraDM;
+    if (entry.extraTDM) p.extraTDM = entry.extraTDM;
     const old = prevBy.get(lc(p.riotId));
     console.log(`${label} ${p.riotId}`);
     try {
       await updatePlayer(p, cache, config);
-      console.log(`  ✓ DM ${p.dmWins}/${p.dmPlayed} + TDM ${p.tdmWins}/${p.tdmPlayed} → ${p.wins} victorias`);
+      const ext = p.extraDM || p.extraTDM ? ` (incluye ajuste manual: DM +${p.extraDM}, TDM +${p.extraTDM})` : "";
+      console.log(`  ✓ DM ${p.dmWins} (${p.dmPlayed} jugadas) + TDM ${p.tdmWins} (${p.tdmPlayed} jugadas) → ${p.wins} victorias${ext}`);
       return { ...p, ok: true, lastOkAt: new Date().toISOString() };
     } catch (e) {
       console.error(`  ✗ ${e.message}`);

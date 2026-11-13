@@ -38,6 +38,11 @@
       ? `<span class="stale" title="No se pudo actualizar en la última pasada. Dato de ${esc(fmtAgo(p.lastOkAt))}.">⚠</span>`
       : "";
 
+  const extraNote = (p) =>
+    p.extraDM || p.extraTDM
+      ? ` title="Incluye victorias añadidas a mano (partidas antiguas que ya no da la API de Riot): DM +${p.extraDM || 0}, TDM +${p.extraTDM || 0}"`
+      : "";
+
   let record = null; // victorias del retador (marca a batir)
   const beats = (p) => record != null && p.wins > record;
   const badge = (p) => (beats(p) ? `<span class="badge">Supera el récord</span>` : "");
@@ -60,7 +65,7 @@
         <div class="block">
           <div class="pos">${i + 1}</div>
           <div class="wins">${p.wins}<span>VICTORIAS</span></div>
-          <div class="detail">DM ${p.dmWins} · TDM ${p.tdmWins}</div>
+          <div class="detail"${extraNote(p)}>DM ${p.dmWins} · TDM ${p.tdmWins}</div>
         </div>
       </div>`;
     });
@@ -75,7 +80,7 @@
           <span class="pos">${i + 4}</span>
           ${avatar(p)}
           <span class="name">${nameHtml(p)}${staleHtml(p)}${badge(p)}</span>
-          <span class="wins">${p.wins}<small>DM ${p.dmWins} · TDM ${p.tdmWins}</small></span>
+          <span class="wins"${extraNote(p)}>${p.wins}<small>DM ${p.dmWins} · TDM ${p.tdmWins}</small></span>
         </a>
       </li>`).join("");
     $("#empty").classList.toggle("hidden", players.length > 0);

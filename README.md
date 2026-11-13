@@ -15,7 +15,7 @@ trackers.json ──► GitHub Actions (cada 30 min) ──► data/ranking.json
 - Límite de la clave gratuita de HenrikDev: **30 peticiones/minuto**. El script lee las cabeceras de la API y va lo más rápido que permite sin pasarse. Cada jugador nuevo cuesta unas 6–10 peticiones la primera vez (más si tiene muchas partidas) y luego ~5 por actualización, así que con 30 jugadores una actualización tarda unos 5–6 min. Si se queda corto, HenrikDev ofrece claves de mayor límite solicitándolas en su Discord.
 - Si un jugador falla, se conserva su último dato y aparece un ⚠ junto a su nombre.
 
-> El ranking es orientativo: Riot solo expone un historial reciente, así que las partidas jugadas antes de entrar en el ranking pueden no aparecer completas. El resultado oficial es la revisión en directo de los trackers.
+> Riot solo expone un historial reciente, así que las partidas jugadas antes de entrar en el ranking pueden faltar: se corrigen con el ajuste manual (ver abajo). El resultado oficial es la revisión en directo de los trackers.
 
 ## Clave de HenrikDev (una vez)
 
@@ -32,6 +32,19 @@ Edita `trackers.json` (desde la web de GitHub sirve: icono del lápiz → *Commi
   { "url": "https://tracker.gg/valorant/profile/riot/Deuve%23aot/overview", "nombre": "Nombre opcional a mostrar" }
 ]
 ```
+
+### Ajuste manual (`extraDM` / `extraTDM`)
+
+Riot solo devuelve el historial **reciente** de cada jugador. Las partidas jugadas antes de que el jugador entrara en el ranking pueden no aparecer (tracker.gg sí las tiene porque las guarda según se juegan). Para compensarlo, una sola vez por jugador:
+
+1. Mira sus *Wins* en tracker.gg (Deathmatch y, si hace falta, Team Deathmatch) y compáralas con la web.
+2. Añade la diferencia a su entrada:
+
+```json
+{ "url": "https://tracker.gg/valorant/profile/riot/Huguicius%235613/overview?...", "extraDM": 14, "extraTDM": 0 }
+```
+
+El ajuste se suma a lo que encuentre la API y **no hay que volver a tocarlo**: desde que un jugador está en el ranking, cada partida nueva se guarda en cuanto aparece (cada 30 min), así que no se pierde ninguna.
 
 Al guardar se lanza la actualización automáticamente (tarda 1–3 min). Si la URL no lleva `season=`, se usa `seasonId` de `config.json`.
 
