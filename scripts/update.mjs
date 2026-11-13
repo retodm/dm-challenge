@@ -176,20 +176,22 @@ async function updatePlayer(p, cache, config) {
       if (!useV4) res = await api(`/valorant/v3/matches/${region}/${enc(p.name)}/${enc(p.tag)}?${q}`, null);
       const list = res?.data || [];
       let older = 0, known = 0, added = 0;
+      const dates = [], olderInfo = [];
       for (const raw of list) {
         const m = normalizeMatch(raw);
         if (!m.id) continue;
-        if (!inAct(m.season, m.startedAt)) { older++; continue; }
+        dates.push(m.startedAt);
+        if (!inAct(m.season, m.startedAt)) { older++; olderInfo.push(`${m.startedAt?.slice(0, 10)} season=${m.season}`); continue; }
         if (mine[m.id]) { known++; continue; }
         const won = didWin(m, puuid, mode.key);
         if (DEBUG) {
           const me = m.players.find((x) => x.puuid === puuid);
           const rival = [...m.players].filter((x) => x.puuid !== puuid).sort((a, b) => b.kills - a.kills)[0];
-          console.log(`  [debug] ${mode.key} ${m.id.slice(0, 8)} ${m.startedAt?.slice(0, 16)} mis kills=${me?.kills ?? "?"} mejor rival=${rival?.kills ?? "?"} → ${won ? "VICTORIA" : "derrota"}`);
+          if (won) console.log(`  [debug] ${mode.key} ${m.id.slice(0, 8)} ${m.startedAt?.slice(0, 16)} mis kills=${me?.kills ?? "?"} mejor rival=${rival?.kills ?? "?"} → ${won ? "VICTORIA" : "derrota"}`);
         }
         if (won !== null) { mine[m.id] = { mode: mode.key, won, at: m.startedAt }; added++; }
       }
-      if (DEBUG) console.log(`  [debug] página ${page + 1} (${useV4 ? "v4" : "v3"}): ${list.length} partidas · ${added} nuevas · ${known} ya guardadas · ${older} de otro acto`);
+      if (DEBUG) console.log(`  [debug] historial ${mode.key} pág ${page + 1} (${useV4 ? "v4" : "v3"}): ${list.length} partidas [${dates.at(-1)?.slice(0, 10)} … ${dates[0]?.slice(0, 10)}] · ${added} nuevas · ${known} guardadas · ${older} de otro acto ${olderInfo.join(", ")}`);
       if (list.length === 0 || older > 0 || list.length < 10) { bf[bfKey] = true; break; }
       if (bf[bfKey] && known > 0 && added === 0) break; // ya teníamos el resto
     }
@@ -201,13 +203,15 @@ async function updatePlayer(p, cache, config) {
         page === 1 ? `stored_${mode.key}_${p.name}` : null
       );
       const list = st?.data || [];
-      let reachedOlder = false;
+      let reachedOlder = false, sIn = 0, sOld = 0, sKnown = 0;
+      const sOldInfo = [];
       for (const s of list) {
         const id = s.meta?.id;
         const sSeason = s.meta?.season?.id;
         if (!id) continue;
-        if (!inAct(sSeason, s.meta?.started_at)) { reachedOlder = true; continue; }
-        if (mine[id]) continue;
+        if (!inAct(sSeason, s.meta?.started_at)) { reachedOlder = true; sOld++; if (sOldInfo.length < 3) sOldInfo.push(`${s.meta?.started_at?.slice(0, 10)} season=${sSeason}`); continue; }
+        sIn++;
+        if (mine[id]) { sKnown++; continue; }
         let won = null;
         if (mode.key === "tdm" && s.teams && s.stats?.team) {
           const myTeam = lc(s.stats.team);
@@ -221,9 +225,10 @@ async function updatePlayer(p, cache, config) {
           const full = await api(`/valorant/v4/match/${region}/${id}`, `match_${id}`).catch(() => null);
           if (full?.data) won = didWin(normalizeMatch(full.data), puuid, mode.key);
         }
-        if (DEBUG) console.log(`  [debug] stored ${mode.key} ${id.slice(0, 8)} kills=${s.stats?.kills} team=${s.stats?.team} teams=${JSON.stringify(s.teams)} → ${won}`);
+        if (DEBUG && won) console.log(`  [debug] guardada ${mode.key} ${id.slice(0, 8)} ${s.meta?.started_at?.slice(0, 16)} kills=${s.stats?.kills} → VICTORIA`);
         if (won !== null) mine[id] = { mode: mode.key, won, at: s.meta?.started_at };
       }
+      if (DEBUG) console.log(`  [debug] guardadas ${mode.key} pág ${page}: ${list.length} partidas · ${sIn} del acto (${sKnown} ya vistas) · ${sOld} de otro acto ${sOldInfo.join(", ")}`);
       if (reachedOlder || list.length < 25) break;
     }
   }
@@ -248,7 +253,7 @@ async function main() {
   const list = JSON.parse(await readFile(path("trackers.json"), "utf8"));
   const read = async (f, def) => (existsSync(path(f)) ? JSON.parse(await readFile(path(f), "utf8")) : def);
   const prev = await read("data/ranking.json", {});
-  const cache = await read("data/matches.json", {});
+  const cache = process.env.SIN_CACHE ? {} : await read("data/matches.json", {});
   const prevBy = new Map(
     [...(prev.players || []), prev.retador].filter(Boolean).map((x) => [lc(x.riotId), x])
   );
@@ -276,7 +281,7 @@ async function main() {
   const seen = new Set();
   const players = [];
   for (const entry of entries) {
-    if (process.env.SOLO && !lc(entry.url).includes(lc(process.env.SOLO))) continue;
+    if (process.env.SOLO && !process.env.SOLO.split(",").some((t) => lc(decodeURIComponent(entry.url)).includes(lc(t.trim())))) continue;
     const r = await run(entry, "→");
     if (!r || seen.has(lc(r.riotId))) continue;
     seen.add(lc(r.riotId));
