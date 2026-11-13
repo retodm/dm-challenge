@@ -53,33 +53,18 @@ Para corregir las victorias iniciales de alguien basta con cambiar `victoriasDM`
 | `retador` | Opcional. Añádelo con `tracker`, `victoriasDM`, `victoriasTDM` (y `nombre`) para mostrar una "Marca a batir" fuera del podio |
 | `redes.*` | Enlaces a Discord y redes sociales. Las vacías no se muestran |
 
-## Publicar en GitHub Pages (una vez)
+## Publicación (GitHub Pages)
 
-1. Crea un repositorio **público** en GitHub y sube esta carpeta.
-2. Añade el secreto `HENRIK_API_KEY` (ver arriba).
-3. *Settings → Pages → Build and deployment → Source:* **GitHub Actions**.
-4. *Settings → Actions → General → Workflow permissions:* **Read and write permissions**.
-5. Pestaña *Actions → "Actualizar ranking y publicar" → Run workflow*.
-6. La web queda en `https://carlosrodrih.github.io/dm-challenge/`.
+La web está en **https://retodm.github.io/dm-challenge/** (repo `retodm/dm-challenge`). Ajustes necesarios del repo, por si hubiera que revisarlos:
+
+- *Settings → Secrets and variables → Actions*: secreto `HENRIK_API_KEY` (ver arriba).
+- *Settings → Pages → Build and deployment → Source:* **GitHub Actions**.
+- *Settings → Actions → General → Workflow permissions:* **Read and write permissions**.
+
+Para forzar una actualización: *Actions → "Actualizar ranking y publicar" → Run workflow*.
 
 Si el repo es público, los minutos de Actions son gratis e ilimitados.
 
-## Probar
+## Probar sin publicar
 
-**En GitHub sin publicar nada:** *Actions → Actualizar ranking y publicar → Run workflow* → marca **Solo probar**. El resultado sale en el log del paso "Probar (sin guardar)".
-
-**En tu PC** (necesitas [Node.js](https://nodejs.org) 18 o superior):
-
-```bash
-git clone https://github.com/carlosrodrih/dm-challenge
-cd dm-challenge
-HENRIK_API_KEY=tu_clave npm run probar     # muestra la tabla, no guarda nada
-HENRIK_API_KEY=tu_clave npm run update     # genera data/ranking.json
-npm run serve                              # abre la web en http://localhost:3000
-```
-
-En Windows (PowerShell), en lugar de `HENRIK_API_KEY=tu_clave npm run …` usa:
-
-```powershell
-$env:HENRIK_API_KEY="tu_clave"; npm run probar
-```
+*Actions → Actualizar ranking y publicar → Run workflow* → marca **Solo probar**. El resultado sale en el log del paso "Probar (sin guardar)".
