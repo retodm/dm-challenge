@@ -5,7 +5,7 @@ Web estática (GitHub Pages) con el ranking del reto: victorias de **Deathmatch 
 ## Cómo funciona
 
 ```
-trackers.json ──► GitHub Actions (cada varias horas) ──► data/ranking.json ──► GitHub Pages (index.html)
+trackers.json ──► cron-job.org (cada hora) ──► GitHub Actions ──► data/ranking.json ──► GitHub Pages (index.html)
 ```
 
 - Cada participante entra con las victorias que **ya tiene en tracker.gg** (`victoriasDM`, `victoriasTDM`).
@@ -61,7 +61,16 @@ La web está en **https://retodm.github.io/dm-challenge/** (repo `retodm/dm-chal
 - *Settings → Pages → Build and deployment → Source:* **GitHub Actions**.
 - *Settings → Actions → General → Workflow permissions:* **Read and write permissions**.
 
-Para forzar una actualización: *Actions → "Actualizar ranking y publicar" → Run workflow*.
+### Actualización automática (cron-job.org)
+
+El horario programado de GitHub Actions se salta muchas ejecuciones, así que el workflow no lo usa. Lo lanza cada hora una tarea de [cron-job.org](https://cron-job.org):
+
+- `POST https://api.github.com/repos/retodm/dm-challenge/actions/workflows/ranking.yml/dispatches`
+- Cabeceras: `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`, `Content-Type: application/json`
+- Cuerpo: `{"ref":"main"}` → responde `204 No Content` si va bien.
+- El token es *fine-grained*, solo para este repo y con permiso **Actions: Read and write**. Tiene fecha de caducidad (se propuso el 31/01/2027): si se reutiliza para otro acto, hay que renovarlo y cambiarlo en cron-job.org.
+
+Además se actualiza al subir cambios (jugadores, web, script). Para forzar una actualización: *Actions → "Actualizar ranking y publicar" → Run workflow*.
 
 Si el repo es público, los minutos de Actions son gratis e ilimitados.
 

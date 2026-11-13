@@ -1,9 +1,7 @@
 name: Actualizar ranking y publicar
 
 on:
-  schedule:
-    - cron: "17,47 * * * *"   # cada 30 min, en minutos poco usados (a :00 y :30 GitHub descarta muchas ejecuciones)
-  workflow_dispatch:          # botón "Run workflow" en la pestaña Actions
+  workflow_dispatch:          # botón "Run workflow" en la pestaña Actions y llamada horaria desde cron-job.org
     inputs:
       solo_probar:
         description: "Solo probar (muestra resultados, no guarda ni publica)"
