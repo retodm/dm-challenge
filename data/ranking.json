@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-14T13:37:49.680Z",
+  "updatedAt": "2026-11-14T14:05:09.354Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -19,7 +19,7 @@
       "tdmWins": 62,
       "wins": 70,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:36:44.346Z"
+      "lastOkAt": "2026-11-14T14:04:07.040Z"
     },
     {
       "riotId": "Huguicius#5613",
@@ -37,7 +37,7 @@
       "tdmWins": 7,
       "wins": 63,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:35:40.928Z"
+      "lastOkAt": "2026-11-14T14:03:00.491Z"
     },
     {
       "riotId": "el niño#gordi",
@@ -55,7 +55,7 @@
       "tdmWins": 26,
       "wins": 60,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:37:49.675Z"
+      "lastOkAt": "2026-11-14T14:05:09.351Z"
     },
     {
       "riotId": "UBT Davstylez#EUW",
@@ -73,7 +73,7 @@
       "tdmWins": 1,
       "wins": 47,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:35:43.538Z"
+      "lastOkAt": "2026-11-14T14:03:04.535Z"
     },
     {
       "riotId": "じゃがいも#king",
@@ -91,7 +91,7 @@
       "tdmWins": 43,
       "wins": 45,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:37:45.442Z"
+      "lastOkAt": "2026-11-14T14:05:04.970Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -109,7 +109,7 @@
       "tdmWins": 31,
       "wins": 39,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:34:39.561Z"
+      "lastOkAt": "2026-11-14T14:01:58.862Z"
     },
     {
       "riotId": "Meguru Bachira#BLC",
@@ -127,7 +127,7 @@
       "tdmWins": 22,
       "wins": 25,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:35:47.563Z"
+      "lastOkAt": "2026-11-14T14:03:09.383Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -145,7 +145,7 @@
       "tdmWins": 5,
       "wins": 7,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:33:40.826Z"
+      "lastOkAt": "2026-11-14T14:01:01.715Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -163,7 +163,7 @@
       "tdmWins": 0,
       "wins": 1,
       "ok": true,
-      "lastOkAt": "2026-11-14T13:34:41.763Z"
+      "lastOkAt": "2026-11-14T14:02:02.455Z"
     }
   ]
 }
