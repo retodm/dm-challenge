@@ -1,10 +1,10 @@
-name: Actualizar ranking y publicar
+name: Actualizar ranking
 
 on:
   workflow_dispatch:          # botón "Run workflow" en la pestaña Actions y llamada horaria desde cron-job.org
     inputs:
       solo_probar:
-        description: "Solo probar (muestra resultados, no guarda ni publica)"
+        description: "Solo probar (muestra resultados, no guarda nada)"
         type: boolean
         default: false
       solo_jugador:
@@ -13,12 +13,10 @@ on:
         default: ""
   push:
     branches: [main]
-    paths: ["trackers.json", "config.json", "index.html", "styles.css", "app.js", "scripts/**", ".github/workflows/**"]
+    paths: ["trackers.json", "config.json", "scripts/**", ".github/workflows/ranking.yml"]
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: ranking
@@ -54,18 +52,3 @@ jobs:
           git add data/ trackers.json config.json
           git diff --cached --quiet || git commit -m "Actualizar ranking [skip ci]"
           git pull --rebase -q && git push
-
-      - name: Preparar web
-        if: ${{ !inputs.solo_probar }}
-        run: |
-          mkdir -p _site/data
-          cp index.html styles.css app.js config.json _site/
-          cp data/ranking.json _site/data/
-      - uses: actions/configure-pages@v5
-        if: ${{ !inputs.solo_probar }}
-      - uses: actions/upload-pages-artifact@v3
-        if: ${{ !inputs.solo_probar }}
-        with:
-          path: _site
-      - uses: actions/deploy-pages@v4
-        if: ${{ !inputs.solo_probar }}

@@ -5,8 +5,13 @@ Web estática (GitHub Pages) con el ranking del reto: victorias de **Deathmatch 
 ## Cómo funciona
 
 ```
-trackers.json ──► cron-job.org (cada hora) ──► GitHub Actions ──► data/ranking.json ──► GitHub Pages (index.html)
+cron-job.org (cada hora) ──► Actions "Actualizar ranking" ──► data/ranking.json (en el repo)
+                                                                      ▲
+GitHub Pages (index.html, se publica solo si cambia la web) ── lee ───┘  raw.githubusercontent.com
 ```
+
+- Hay dos workflows: **Actualizar ranking** (`ranking.yml`) calcula los datos y los guarda en el repo; **Publicar web** (`pages.yml`) solo se ejecuta cuando cambian `index.html`, `styles.css` o `app.js`.
+- La web lee `config.json` y `data/ranking.json` directamente del repo, así que ve siempre la última versión sin republicar. Si el repo no responde, usa la copia incluida al publicar. Requiere que el repo sea **público**.
 
 - Cada participante entra con las victorias que **ya tiene en tracker.gg** (`victoriasDM`, `victoriasTDM`).
 - La primera vez que el script lo ve, apunta la fecha en `"desde"` (en el propio `trackers.json`).
@@ -70,10 +75,10 @@ El horario programado de GitHub Actions se salta muchas ejecuciones, así que el
 - Cuerpo: `{"ref":"main"}` → responde `204 No Content` si va bien.
 - El token es *fine-grained*, solo para este repo y con permiso **Actions: Read and write**. Tiene fecha de caducidad (se propuso el 31/01/2027): si se reutiliza para otro acto, hay que renovarlo y cambiarlo en cron-job.org.
 
-Además se actualiza al subir cambios (jugadores, web, script). Para forzar una actualización: *Actions → "Actualizar ranking y publicar" → Run workflow*.
+Además se actualiza al subir cambios de jugadores, configuración o script. Para forzar una actualización: *Actions → "Actualizar ranking" → Run workflow*. Para republicar la web a mano: *Actions → "Publicar web" → Run workflow*.
 
 Si el repo es público, los minutos de Actions son gratis e ilimitados.
 
-## Probar sin publicar
+## Probar sin guardar
 
-*Actions → Actualizar ranking y publicar → Run workflow* → marca **Solo probar**. El resultado sale en el log del paso "Probar (sin guardar)".
+*Actions → Actualizar ranking → Run workflow* → marca **Solo probar**. El resultado sale en el log del paso "Probar (sin guardar)".

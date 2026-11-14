@@ -111,10 +111,23 @@
     el.classList.remove("hidden");
   }
 
-  async function getJson(url) {
+  // Los datos se leen directamente del repo (siempre la última versión, sin volver a publicar la web).
+  // Si falla, se usa la copia incluida en la web publicada.
+  const REPO_RAW = "https://raw.githubusercontent.com/retodm/dm-challenge/main/";
+
+  async function fetchJson(url) {
     const res = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
     return res.json();
+  }
+
+  async function getJson(path) {
+    try {
+      return await fetchJson(REPO_RAW + path);
+    } catch (e) {
+      console.warn("Repo no disponible, uso la copia local:", e.message);
+      return fetchJson(path);
+    }
   }
 
   async function load() {

@@ -1,0 +1,35 @@
+name: Publicar web
+
+# La web solo se publica cuando cambia la propia web. Los datos (ranking.json, config.json)
+# los lee el navegador directamente del repo, así que no hace falta republicar cada hora.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["index.html", "styles.css", "app.js", ".github/workflows/pages.yml"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparar web
+        run: |
+          mkdir -p _site/data
+          cp index.html styles.css app.js config.json _site/
+          cp data/ranking.json _site/data/   # copia de reserva por si el repo no responde
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - uses: actions/deploy-pages@v4
