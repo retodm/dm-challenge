@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-14T22:09:11.915Z",
+  "updatedAt": "2026-11-14T23:07:19.573Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -19,7 +19,7 @@
       "tdmWins": 66,
       "wins": 74,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:07:09.906Z"
+      "lastOkAt": "2026-11-14T23:05:12.611Z"
     },
     {
       "riotId": "el niño#gordi",
@@ -37,7 +37,7 @@
       "tdmWins": 36,
       "wins": 70,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:08:17.633Z"
+      "lastOkAt": "2026-11-14T23:06:17.330Z"
     },
     {
       "riotId": "Huguicius#5613",
@@ -55,7 +55,25 @@
       "tdmWins": 9,
       "wins": 66,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:05:12.775Z"
+      "lastOkAt": "2026-11-14T23:03:11.602Z"
+    },
+    {
+      "riotId": "じゃがいも#king",
+      "name": "じゃがいも",
+      "tag": "king",
+      "url": "https://tracker.gg/valorant/profile/riot/%E3%81%98%E3%82%83%E3%81%8C%E3%81%84%E3%82%82%23king/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
+      "puuid": "140fc0ae-25b3-5101-beae-90474b493dd5",
+      "avatar": "https://media.valorant-api.com/playercards/5488fcd7-41d5-0890-e90a-8d9099807d9b/smallart.png",
+      "desde": "2026-11-13T13:03:54.865Z",
+      "baseDm": 2,
+      "baseTdm": 27,
+      "newDm": 0,
+      "newTdm": 23,
+      "dmWins": 2,
+      "tdmWins": 50,
+      "wins": 52,
+      "ok": true,
+      "lastOkAt": "2026-11-14T23:05:23.623Z"
     },
     {
       "riotId": "UBT Davstylez#EUW",
@@ -73,25 +91,7 @@
       "tdmWins": 4,
       "wins": 50,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:06:06.281Z"
-    },
-    {
-      "riotId": "じゃがいも#king",
-      "name": "じゃがいも",
-      "tag": "king",
-      "url": "https://tracker.gg/valorant/profile/riot/%E3%81%98%E3%82%83%E3%81%8C%E3%81%84%E3%82%82%23king/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
-      "puuid": "140fc0ae-25b3-5101-beae-90474b493dd5",
-      "avatar": "https://media.valorant-api.com/playercards/5488fcd7-41d5-0890-e90a-8d9099807d9b/smallart.png",
-      "desde": "2026-11-13T13:03:54.865Z",
-      "baseDm": 2,
-      "baseTdm": 27,
-      "newDm": 0,
-      "newTdm": 21,
-      "dmWins": 2,
-      "tdmWins": 48,
-      "wins": 50,
-      "ok": true,
-      "lastOkAt": "2026-11-14T22:07:15.507Z"
+      "lastOkAt": "2026-11-14T23:04:06.282Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -109,7 +109,7 @@
       "tdmWins": 33,
       "wins": 41,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:04:03.134Z"
+      "lastOkAt": "2026-11-14T23:02:03.648Z"
     },
     {
       "riotId": "Miracle22#2206",
@@ -118,7 +118,6 @@
       "url": "https://tracker.gg/valorant/profile/riot/Miracle22%232206/overview?playlist=deathmatch&platform=pc&season=d816f426-48ea-f052-117f-9697a155b319",
       "puuid": "82193111-7770-55df-8be9-70de55800531",
       "avatar": "https://media.valorant-api.com/playercards/7d7bbcea-4601-5629-7134-a2aaf547ccbd/smallart.png",
-      "nuevo": true,
       "desde": "2026-11-14T22:09:11.910Z",
       "baseDm": 27,
       "baseTdm": 6,
@@ -128,7 +127,7 @@
       "tdmWins": 6,
       "wins": 33,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:09:11.911Z"
+      "lastOkAt": "2026-11-14T23:07:19.567Z"
     },
     {
       "riotId": "Meguru Bachira#BLC",
@@ -146,7 +145,7 @@
       "tdmWins": 22,
       "wins": 25,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:06:12.204Z"
+      "lastOkAt": "2026-11-14T23:04:13.848Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -164,7 +163,7 @@
       "tdmWins": 5,
       "wins": 7,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:03:04.206Z"
+      "lastOkAt": "2026-11-14T23:01:04.947Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -182,7 +181,7 @@
       "tdmWins": 3,
       "wins": 4,
       "ok": true,
-      "lastOkAt": "2026-11-14T22:05:04.392Z"
+      "lastOkAt": "2026-11-14T23:03:02.971Z"
     }
   ]
 }
