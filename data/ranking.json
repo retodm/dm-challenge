@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-16T19:08:57.645Z",
+  "updatedAt": "2026-11-16T21:08:15.749Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -19,7 +19,7 @@
       "tdmWins": 60,
       "wins": 94,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:07:56.830Z"
+      "lastOkAt": "2026-11-16T21:07:18.678Z"
     },
     {
       "riotId": "Vi0let#9786",
@@ -37,7 +37,7 @@
       "tdmWins": 85,
       "wins": 93,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:06:52.867Z"
+      "lastOkAt": "2026-11-16T21:06:13.364Z"
     },
     {
       "riotId": "じゃがいも#king",
@@ -50,12 +50,12 @@
       "baseDm": 2,
       "baseTdm": 27,
       "newDm": 0,
-      "newTdm": 49,
+      "newTdm": 50,
       "dmWins": 2,
-      "tdmWins": 76,
-      "wins": 78,
+      "tdmWins": 77,
+      "wins": 79,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:07:00.524Z"
+      "lastOkAt": "2026-11-16T21:07:10.235Z"
     },
     {
       "riotId": "Huguicius#5613",
@@ -73,7 +73,7 @@
       "tdmWins": 11,
       "wins": 70,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:04:50.613Z"
+      "lastOkAt": "2026-11-16T21:04:06.172Z"
     },
     {
       "riotId": "UBT Davstylez#EUW",
@@ -85,13 +85,13 @@
       "desde": "2026-11-13T11:45:32.674Z",
       "baseDm": 46,
       "baseTdm": 1,
-      "newDm": 0,
+      "newDm": 2,
       "newTdm": 3,
-      "dmWins": 46,
+      "dmWins": 48,
       "tdmWins": 4,
-      "wins": 50,
+      "wins": 52,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:04:55.605Z"
+      "lastOkAt": "2026-11-16T21:04:11.800Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -109,7 +109,7 @@
       "tdmWins": 41,
       "wins": 50,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:02:45.860Z"
+      "lastOkAt": "2026-11-16T21:02:02.030Z"
     },
     {
       "riotId": "Miracle22#2206",
@@ -127,7 +127,7 @@
       "tdmWins": 6,
       "wins": 34,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:08:57.641Z"
+      "lastOkAt": "2026-11-16T21:08:15.744Z"
     },
     {
       "riotId": "Meguru Bachira#BLC",
@@ -145,7 +145,7 @@
       "tdmWins": 25,
       "wins": 28,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:05:53.426Z"
+      "lastOkAt": "2026-11-16T21:05:12.042Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -163,7 +163,7 @@
       "tdmWins": 7,
       "wins": 10,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:01:05.557Z"
+      "lastOkAt": "2026-11-16T21:01:01.713Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -176,12 +176,12 @@
       "baseDm": 1,
       "baseTdm": 0,
       "newDm": 0,
-      "newTdm": 5,
+      "newTdm": 6,
       "dmWins": 1,
-      "tdmWins": 5,
-      "wins": 6,
+      "tdmWins": 6,
+      "wins": 7,
       "ok": true,
-      "lastOkAt": "2026-11-16T19:03:46.161Z"
+      "lastOkAt": "2026-11-16T21:03:01.885Z"
     }
   ]
 }
