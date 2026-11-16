@@ -1,8 +1,26 @@
 {
-  "updatedAt": "2026-11-16T21:08:15.749Z",
+  "updatedAt": "2026-11-16T23:08:32.947Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
+    {
+      "riotId": "Vi0let#9786",
+      "name": "Vi0let",
+      "tag": "9786",
+      "url": "https://tracker.gg/valorant/profile/riot/Vi0let%239786/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
+      "puuid": "4d6d7a53-c2fe-5342-9f7e-0875e34a0fc8",
+      "avatar": "https://media.valorant-api.com/playercards/22a21e81-4b57-061f-d56f-aea3c4a8bf33/smallart.png",
+      "desde": "2026-11-13T12:07:04.558Z",
+      "baseDm": 8,
+      "baseTdm": 48,
+      "newDm": 0,
+      "newTdm": 39,
+      "dmWins": 8,
+      "tdmWins": 87,
+      "wins": 95,
+      "ok": true,
+      "lastOkAt": "2026-11-16T23:06:25.582Z"
+    },
     {
       "riotId": "el niño#gordi",
       "name": "el niño",
@@ -19,25 +37,7 @@
       "tdmWins": 60,
       "wins": 94,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:07:18.678Z"
-    },
-    {
-      "riotId": "Vi0let#9786",
-      "name": "Vi0let",
-      "tag": "9786",
-      "url": "https://tracker.gg/valorant/profile/riot/Vi0let%239786/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
-      "puuid": "4d6d7a53-c2fe-5342-9f7e-0875e34a0fc8",
-      "avatar": "https://media.valorant-api.com/playercards/22a21e81-4b57-061f-d56f-aea3c4a8bf33/smallart.png",
-      "desde": "2026-11-13T12:07:04.558Z",
-      "baseDm": 8,
-      "baseTdm": 48,
-      "newDm": 0,
-      "newTdm": 37,
-      "dmWins": 8,
-      "tdmWins": 85,
-      "wins": 93,
-      "ok": true,
-      "lastOkAt": "2026-11-16T21:06:13.364Z"
+      "lastOkAt": "2026-11-16T23:08:23.077Z"
     },
     {
       "riotId": "じゃがいも#king",
@@ -50,12 +50,12 @@
       "baseDm": 2,
       "baseTdm": 27,
       "newDm": 0,
-      "newTdm": 50,
+      "newTdm": 51,
       "dmWins": 2,
-      "tdmWins": 77,
-      "wins": 79,
+      "tdmWins": 78,
+      "wins": 80,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:07:10.235Z"
+      "lastOkAt": "2026-11-16T23:07:26.920Z"
     },
     {
       "riotId": "Huguicius#5613",
@@ -67,13 +67,13 @@
       "desde": "2026-11-13T11:28:55.033Z",
       "baseDm": 53,
       "baseTdm": 6,
-      "newDm": 6,
+      "newDm": 8,
       "newTdm": 5,
-      "dmWins": 59,
+      "dmWins": 61,
       "tdmWins": 11,
-      "wins": 70,
+      "wins": 72,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:04:06.172Z"
+      "lastOkAt": "2026-11-16T23:04:17.567Z"
     },
     {
       "riotId": "UBT Davstylez#EUW",
@@ -86,12 +86,12 @@
       "baseDm": 46,
       "baseTdm": 1,
       "newDm": 2,
-      "newTdm": 3,
+      "newTdm": 4,
       "dmWins": 48,
-      "tdmWins": 4,
-      "wins": 52,
+      "tdmWins": 5,
+      "wins": 53,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:04:11.800Z"
+      "lastOkAt": "2026-11-16T23:05:16.339Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -109,7 +109,7 @@
       "tdmWins": 41,
       "wins": 50,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:02:02.030Z"
+      "lastOkAt": "2026-11-16T23:02:12.756Z"
     },
     {
       "riotId": "Miracle22#2206",
@@ -127,7 +127,7 @@
       "tdmWins": 6,
       "wins": 34,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:08:15.744Z"
+      "lastOkAt": "2026-11-16T23:08:32.941Z"
     },
     {
       "riotId": "Meguru Bachira#BLC",
@@ -145,7 +145,7 @@
       "tdmWins": 25,
       "wins": 28,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:05:12.042Z"
+      "lastOkAt": "2026-11-16T23:06:17.591Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -158,12 +158,12 @@
       "baseDm": 2,
       "baseTdm": 2,
       "newDm": 1,
-      "newTdm": 5,
+      "newTdm": 6,
       "dmWins": 3,
-      "tdmWins": 7,
-      "wins": 10,
+      "tdmWins": 8,
+      "wins": 11,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:01:01.713Z"
+      "lastOkAt": "2026-11-16T23:01:11.935Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -176,12 +176,12 @@
       "baseDm": 1,
       "baseTdm": 0,
       "newDm": 0,
-      "newTdm": 6,
+      "newTdm": 7,
       "dmWins": 1,
-      "tdmWins": 6,
-      "wins": 7,
+      "tdmWins": 7,
+      "wins": 8,
       "ok": true,
-      "lastOkAt": "2026-11-16T21:03:01.885Z"
+      "lastOkAt": "2026-11-16T23:03:15.851Z"
     }
   ]
 }
