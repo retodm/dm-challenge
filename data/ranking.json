@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-17T03:08:30.808Z",
+  "updatedAt": "2026-11-17T05:08:23.445Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -19,7 +19,7 @@
       "tdmWins": 87,
       "wins": 95,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:06:25.206Z"
+      "lastOkAt": "2026-11-17T05:06:20.566Z"
     },
     {
       "riotId": "el niño#gordi",
@@ -37,7 +37,7 @@
       "tdmWins": 60,
       "wins": 94,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:08:22.273Z"
+      "lastOkAt": "2026-11-17T05:08:17.017Z"
     },
     {
       "riotId": "じゃがいも#king",
@@ -55,7 +55,7 @@
       "tdmWins": 78,
       "wins": 80,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:07:25.262Z"
+      "lastOkAt": "2026-11-17T05:07:19.455Z"
     },
     {
       "riotId": "Huguicius#5613",
@@ -73,7 +73,7 @@
       "tdmWins": 11,
       "wins": 72,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:04:18.385Z"
+      "lastOkAt": "2026-11-17T05:04:13.167Z"
     },
     {
       "riotId": "UBT Davstylez#EUW",
@@ -91,7 +91,7 @@
       "tdmWins": 5,
       "wins": 53,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:05:18.712Z"
+      "lastOkAt": "2026-11-17T05:05:12.587Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -109,7 +109,7 @@
       "tdmWins": 41,
       "wins": 50,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:02:13.935Z"
+      "lastOkAt": "2026-11-17T05:02:07.851Z"
     },
     {
       "riotId": "Miracle22#2206",
@@ -127,7 +127,7 @@
       "tdmWins": 6,
       "wins": 34,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:08:30.805Z"
+      "lastOkAt": "2026-11-17T05:08:23.440Z"
     },
     {
       "riotId": "Meguru Bachira#BLC",
@@ -145,7 +145,7 @@
       "tdmWins": 25,
       "wins": 28,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:06:18.195Z"
+      "lastOkAt": "2026-11-17T05:06:13.026Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -163,7 +163,7 @@
       "tdmWins": 8,
       "wins": 11,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:01:13.135Z"
+      "lastOkAt": "2026-11-17T05:01:07.040Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -181,7 +181,7 @@
       "tdmWins": 7,
       "wins": 8,
       "ok": true,
-      "lastOkAt": "2026-11-17T03:03:16.260Z"
+      "lastOkAt": "2026-11-17T05:03:10.153Z"
     }
   ]
 }
