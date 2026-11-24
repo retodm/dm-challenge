@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-23T23:10:24.329Z",
+  "updatedAt": "2026-11-24T00:11:24.968Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -19,7 +19,7 @@
       "tdmWins": 129,
       "wins": 169,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:09:23.249Z"
+      "lastOkAt": "2026-11-24T00:10:21.973Z"
     },
     {
       "riotId": "Vi0let#9786",
@@ -28,17 +28,16 @@
       "url": "https://tracker.gg/valorant/profile/riot/Vi0let%239786/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
       "puuid": "4d6d7a53-c2fe-5342-9f7e-0875e34a0fc8",
       "avatar": "https://media.valorant-api.com/playercards/22a21e81-4b57-061f-d56f-aea3c4a8bf33/smallart.png",
-      "dmWins": 8,
-      "tdmWins": 112,
+      "desde": "2026-11-13T12:07:04.558Z",
       "baseDm": 8,
       "baseTdm": 48,
       "newDm": 0,
       "newTdm": 64,
-      "desde": "2026-11-13T12:07:04.558Z",
+      "dmWins": 8,
+      "tdmWins": 112,
       "wins": 120,
-      "ok": false,
-      "error": "fetch failed",
-      "lastOkAt": "2026-11-23T22:08:23.379Z"
+      "ok": true,
+      "lastOkAt": "2026-11-24T00:08:22.165Z"
     },
     {
       "riotId": "じゃがいも#king",
@@ -51,12 +50,12 @@
       "baseDm": 2,
       "baseTdm": 27,
       "newDm": 0,
-      "newTdm": 83,
+      "newTdm": 86,
       "dmWins": 2,
-      "tdmWins": 110,
-      "wins": 112,
+      "tdmWins": 113,
+      "wins": 115,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:08:22.506Z"
+      "lastOkAt": "2026-11-24T00:09:23.445Z"
     },
     {
       "riotId": "Huguicius#5613",
@@ -74,7 +73,7 @@
       "tdmWins": 28,
       "wins": 111,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:05:11.838Z"
+      "lastOkAt": "2026-11-24T00:05:12.232Z"
     },
     {
       "riotId": "UBT Davstylez#EUW",
@@ -92,7 +91,7 @@
       "tdmWins": 17,
       "wins": 68,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:06:15.777Z"
+      "lastOkAt": "2026-11-24T00:06:17.039Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -100,7 +99,7 @@
       "tag": "aot",
       "url": "https://tracker.gg/valorant/profile/riot/Deuve%23aot/overview?platform=pc&playlist=deathmatch&season=d816f426-48ea-f052-117f-9697a155b319",
       "puuid": "fe158399-d88f-5864-bfd0-7330a42f7d73",
-      "avatar": "https://media.valorant-api.com/playercards/faa3c3b5-4b0b-1f20-b383-01b7b83126ff/smallart.png",
+      "avatar": "https://media.valorant-api.com/playercards/714965d1-469f-6661-1012-5d8664ca5e4a/smallart.png",
       "desde": "2026-11-13T11:28:36.000Z",
       "baseDm": 8,
       "baseTdm": 26,
@@ -110,7 +109,7 @@
       "tdmWins": 44,
       "wins": 53,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:03:03.450Z"
+      "lastOkAt": "2026-11-24T00:03:03.429Z"
     },
     {
       "riotId": "Miracle22#2206",
@@ -128,7 +127,7 @@
       "tdmWins": 10,
       "wins": 43,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:10:24.323Z"
+      "lastOkAt": "2026-11-24T00:11:24.963Z"
     },
     {
       "riotId": "Meguru Bachira#BLC",
@@ -146,7 +145,7 @@
       "tdmWins": 29,
       "wins": 33,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:08:12.566Z"
+      "lastOkAt": "2026-11-24T00:08:13.692Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -164,7 +163,7 @@
       "tdmWins": 14,
       "wins": 18,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:01:58.428Z"
+      "lastOkAt": "2026-11-24T00:01:59.319Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -182,7 +181,7 @@
       "tdmWins": 14,
       "wins": 15,
       "ok": true,
-      "lastOkAt": "2026-11-23T23:04:06.643Z"
+      "lastOkAt": "2026-11-24T00:04:06.797Z"
     }
   ]
 }
