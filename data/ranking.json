@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-28T10:11:23.987Z",
+  "updatedAt": "2026-11-28T11:11:24.520Z",
   "seasonId": "d816f426-48ea-f052-117f-9697a155b319",
   "retador": null,
   "players": [
@@ -19,7 +19,7 @@
       "tdmWins": 154,
       "wins": 194,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:10:23.341Z"
+      "lastOkAt": "2026-11-28T11:10:25.027Z"
     },
     {
       "riotId": "Vi0let#9786",
@@ -27,17 +27,35 @@
       "tag": "9786",
       "url": "https://tracker.gg/valorant/profile/riot/Vi0let%239786/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
       "puuid": "4d6d7a53-c2fe-5342-9f7e-0875e34a0fc8",
-      "avatar": "https://media.valorant-api.com/playercards/aa7261e8-49b3-a489-d23f-39b935122f09/smallart.png",
+      "avatar": "https://media.valorant-api.com/playercards/b06a92e4-48ab-81f5-244b-9987534a8603/smallart.png",
       "desde": "2026-11-13T12:07:04.558Z",
       "baseDm": 8,
       "baseTdm": 48,
       "newDm": 0,
-      "newTdm": 73,
+      "newTdm": 74,
       "dmWins": 8,
-      "tdmWins": 121,
-      "wins": 129,
+      "tdmWins": 122,
+      "wins": 130,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:08:23.538Z"
+      "lastOkAt": "2026-11-28T11:08:24.248Z"
+    },
+    {
+      "riotId": "じゃがいも#king",
+      "name": "じゃがいも",
+      "tag": "king",
+      "url": "https://tracker.gg/valorant/profile/riot/%E3%81%98%E3%82%83%E3%81%8C%E3%81%84%E3%82%82%23king/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
+      "puuid": "140fc0ae-25b3-5101-beae-90474b493dd5",
+      "avatar": "https://media.valorant-api.com/playercards/5488fcd7-41d5-0890-e90a-8d9099807d9b/smallart.png",
+      "desde": "2026-11-13T13:03:54.865Z",
+      "baseDm": 2,
+      "baseTdm": 27,
+      "newDm": 0,
+      "newTdm": 90,
+      "dmWins": 2,
+      "tdmWins": 117,
+      "wins": 119,
+      "ok": true,
+      "lastOkAt": "2026-11-28T11:09:23.180Z"
     },
     {
       "riotId": "Huguicius#5613",
@@ -55,25 +73,7 @@
       "tdmWins": 29,
       "wins": 118,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:05:13.170Z"
-    },
-    {
-      "riotId": "じゃがいも#king",
-      "name": "じゃがいも",
-      "tag": "king",
-      "url": "https://tracker.gg/valorant/profile/riot/%E3%81%98%E3%82%83%E3%81%8C%E3%81%84%E3%82%82%23king/overview?platform=pc&playlist=competitive&season=d816f426-48ea-f052-117f-9697a155b319",
-      "puuid": "140fc0ae-25b3-5101-beae-90474b493dd5",
-      "avatar": "https://media.valorant-api.com/playercards/5488fcd7-41d5-0890-e90a-8d9099807d9b/smallart.png",
-      "desde": "2026-11-13T13:03:54.865Z",
-      "baseDm": 2,
-      "baseTdm": 27,
-      "newDm": 0,
-      "newTdm": 89,
-      "dmWins": 2,
-      "tdmWins": 116,
-      "wins": 118,
-      "ok": true,
-      "lastOkAt": "2026-11-28T10:09:21.126Z"
+      "lastOkAt": "2026-11-28T11:05:14.275Z"
     },
     {
       "riotId": "UBT Davstylez#EUW",
@@ -91,7 +91,7 @@
       "tdmWins": 18,
       "wins": 76,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:06:17.825Z"
+      "lastOkAt": "2026-11-28T11:06:18.218Z"
     },
     {
       "riotId": "Deuve#aot",
@@ -109,7 +109,7 @@
       "tdmWins": 46,
       "wins": 56,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:03:04.620Z"
+      "lastOkAt": "2026-11-28T11:03:06.687Z"
     },
     {
       "riotId": "Miracle22#2206",
@@ -127,7 +127,7 @@
       "tdmWins": 10,
       "wins": 44,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:11:23.983Z"
+      "lastOkAt": "2026-11-28T11:11:24.514Z"
     },
     {
       "riotId": "Meguru Bachira#BLC",
@@ -145,7 +145,7 @@
       "tdmWins": 32,
       "wins": 37,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:08:14.907Z"
+      "lastOkAt": "2026-11-28T11:08:15.798Z"
     },
     {
       "riotId": "Zumito#CHUPO",
@@ -163,7 +163,7 @@
       "tdmWins": 15,
       "wins": 19,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:01:59.317Z"
+      "lastOkAt": "2026-11-28T11:02:01.475Z"
     },
     {
       "riotId": "ﾒmisaﾒ#メエススイ",
@@ -181,7 +181,7 @@
       "tdmWins": 16,
       "wins": 17,
       "ok": true,
-      "lastOkAt": "2026-11-28T10:04:06.942Z"
+      "lastOkAt": "2026-11-28T11:04:09.397Z"
     }
   ]
 }
